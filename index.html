@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hunter x Hunter - Nen Cards</title>
+    <style>
+        /* Fonte temática */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #0f0f0f, #1a472a);
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #111;
+            border-bottom: 4px solid #00ff66;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+            color: #00ff66;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        main {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #222;
+            border: 2px solid #00ff66;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 0 12px rgba(0, 255, 100, 0.5);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #00ff99;
+        }
+
+        .card p {
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #111;
+            border-top: 4px solid #00ff66;
+            font-size: 10px;
+            color: #aaa;
+        }
+
+        /* Badge para tipo Nen */
+        .nen-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+            color: #111;
+            margin-top: 5px;
+        }
+
+        .Fortificador {
+            background: #d80000;
+        }
+
+        .Emissor {
+            background: #ea00ff;
+        }
+
+        .Manipulador {
+            background: #fffb00;
+        }
+
+        .Conjurador {
+            background: #42e700;
+        }
+
+        .Transmutador {
+            background: #085eff;
+            color: #585858;
+        }
+
+        .Especialista {
+            background: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Hunter x Hunter - Nen Cards</h1>
+    </header>
+
+    <main id="cards-container">
+        <p style="grid-column: 1 / -1; text-align:center;">Carregando cartas...</p>
+    </main>
+
+    <footer>
+        API Hunter x Hunter © Senac TSI
+    </footer>
+
+    <script>
+        async function carregarCards() {
+            try {
+                // Ajuste a URL da API aqui
+                const resposta = await fetch("http://localhost:8080/q/swagger-ui/");
+                const cards = await resposta.json();
+
+                const container = document.getElementById("cards-container");
+                container.innerHTML = "";
+
+                cards.forEach(c => {
+                    const card = document.createElement("div");
+                    card.className = "card";
+
+                    card.innerHTML = `
+            <h2>${c.hunterName}</h2>
+            <p><strong>Habilidade Nen:</strong> ${c.nenability}</p>
+            <p><strong>Exame:</strong> ${c.exam || "Desconhecido"}</p>
+            <span class="nen-badge ${c.nentype}">${c.nentype}</span>
+          `;
+
+                    container.appendChild(card);
+                });
+            } catch (e) {
+                const container = document.getElementById("cards-container");
+                container.innerHTML = "<p style='grid-column: 1 / -1; text-align:center; color:red;'>Erro ao carregar dados da API</p>";
+                console.error("Erro ao carregar cards:", e);
+            }
+        }
+
+        carregarCards();
+    </script>
+</body>
+
+</html>
