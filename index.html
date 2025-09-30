@@ -124,7 +124,7 @@
         async function carregarCards() {
             try {
                 // Ajuste a URL da API aqui
-                const resposta = await fetch("http://localhost:8080/q/swagger-ui/");
+                const resposta = await fetch("https://hunter-8ttu.onrender.com/q/swagger-ui/");
                 const cards = await resposta.json();
 
                 const container = document.getElementById("cards-container");
@@ -153,5 +153,6 @@
         carregarCards();
     </script>
 </body>
+
 
 </html>
