@@ -3,156 +3,498 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hunter x Hunter - Nen Cards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hunter x Hunter - Cartas Nen</title>
     <style>
-        /* Fonte temática */
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-        body {
-            background: linear-gradient(135deg, #0f0f0f, #1a472a);
-            color: #fff;
-            font-family: 'Press Start 2P', cursive;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        header {
-            background: #111;
-            border-bottom: 4px solid #00ff66;
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #8B6B47 0%, #5C4A3A 50%, #3D2E23 100%);
+            color: #2c2416;
+            min-height: 100vh;
             padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(0, 0, 0, 0.03) 100px, rgba(0, 0, 0, 0.03) 101px),
+                repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(0, 0, 0, 0.03) 100px, rgba(0, 0, 0, 0.03) 101px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
             text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #4A90E2 0%, #2E5C8A 100%);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 4px solid #FFD700;
+            position: relative;
+            overflow: hidden;
         }
 
-        header h1 {
-            font-size: 24px;
-            color: #00ff66;
-            text-shadow: 2px 2px 0 #000;
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
         }
 
-        main {
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            color: #FFD700;
+            text-shadow:
+                3px 3px 0 #2E5C8A,
+                6px 6px 15px rgba(0, 0, 0, 0.8);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            color: #E8F4FF;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.2) 0%, rgba(46, 92, 138, 0.2) 100%);
+            border-radius: 15px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .controls input,
+        .controls select,
+        .controls button {
+            padding: 14px 24px;
+            border: 3px solid #4A90E2;
+            border-radius: 10px;
+            font-size: 1.05em;
+            background: rgba(255, 255, 255, 0.95);
+            color: #2c2416;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .controls input:focus,
+        .controls select:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            transform: scale(1.02);
+        }
+
+        .controls button {
+            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            border-color: #228B22;
+        }
+
+        .controls button:hover {
+            background: linear-gradient(135deg, #3FE03F 0%, #2BA52B 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(50, 205, 50, 0.4);
+        }
+
+        .nen-types {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
             padding: 20px;
+        }
+
+        .nen-type-filter {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(230, 230, 230, 0.9) 100%);
+            border: 3px solid #4A90E2;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            color: #2c2416;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nen-type-filter:hover {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+            border-color: #FFD700;
+            color: #2c2416;
+        }
+
+        .nen-type-filter.active {
+            background: linear-gradient(135deg, #9370DB 0%, #6A4C93 100%);
+            border-color: #9370DB;
+            color: white;
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(147, 112, 219, 0.6);
+        }
+
+        .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 20px;
         }
 
         .card {
-            background: #222;
-            border: 2px solid #00ff66;
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 0 12px rgba(0, 255, 100, 0.5);
-            transition: transform 0.2s ease-in-out;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%);
+            border: 4px solid #4A90E2;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #32CD32 0%, #4A90E2 50%, #FFD700 100%);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+            transition: all 0.5s;
+            opacity: 0;
         }
 
         .card:hover {
-            transform: scale(1.05);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow:
+                0 20px 50px rgba(74, 144, 226, 0.4),
+                0 0 30px rgba(255, 215, 0, 0.3);
+            border-color: #FFD700;
         }
 
-        .card h2 {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #00ff99;
+        .card:hover::after {
+            top: -25%;
+            right: -25%;
+            opacity: 1;
         }
 
-        .card p {
-            font-size: 12px;
-            margin: 5px 0;
+        .card-content {
+            position: relative;
+            z-index: 1;
         }
 
-        footer {
-            text-align: center;
-            padding: 15px;
-            background: #111;
-            border-top: 4px solid #00ff66;
-            font-size: 10px;
-            color: #aaa;
-        }
-
-        /* Badge para tipo Nen */
-        .nen-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 10px;
+        .card-id {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #2c2416;
+            padding: 8px 16px;
+            border-radius: 25px;
             font-weight: bold;
-            color: #111;
-            margin-top: 5px;
+            font-size: 1em;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+            border: 2px solid #FFA500;
         }
 
-        .Fortificador {
-            background: #d80000;
+        .hunter-name {
+            font-size: 2em;
+            color: #2E5C8A;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            padding-top: 10px;
         }
 
-        .Emissor {
-            background: #ea00ff;
+        .nen-ability {
+            font-size: 1.4em;
+            color: #32CD32;
+            margin-bottom: 15px;
+            font-style: italic;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        .Manipulador {
-            background: #fffb00;
+        .nen-type {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #9370DB 0%, #6A4C93 100%);
+            border: 3px solid #9370DB;
+            border-radius: 25px;
+            margin: 15px 0;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 15px rgba(147, 112, 219, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .Conjurador {
-            background: #42e700;
+        .exam-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 3px solid #4A90E2;
+            color: #2c2416;
+            font-weight: 600;
+            font-size: 1.1em;
         }
 
-        .Transmutador {
-            background: #085eff;
-            color: #585858;
+        .loading {
+            text-align: center;
+            font-size: 1.8em;
+            color: #FFD700;
+            padding: 60px;
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.2) 0%, rgba(46, 92, 138, 0.2) 100%);
+            border-radius: 15px;
+            border: 3px solid rgba(255, 215, 0, 0.5);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .Especialista {
-            background: #ffffff;
+        .error {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.3) 0%, rgba(200, 35, 51, 0.3) 100%);
+            border: 3px solid #dc3545;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
+            border: 3px solid #4A90E2;
+            border-radius: 10px;
+            color: #2c2416;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #4A90E2 0%, #2E5C8A 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .pagination .active {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #2c2416;
+            font-weight: bold;
+            border-color: #FFD700;
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>Hunter x Hunter - Nen Cards</h1>
-    </header>
+    <div class="container">
+        <div class="header">
+            <h1>HUNTER × HUNTER</h1>
+            <p>Sistema de Cartas Nen</p>
+        </div>
 
-    <main id="cards-container">
-        <p style="grid-column: 1 / -1; text-align:center;">Carregando cartas...</p>
-    </main>
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Buscar hunter, habilidade ou tipo...">
+            <select id="sortField">
+                <option value="id">Ordenar por ID</option>
+                <option value="hunterName">Ordenar por Nome</option>
+                <option value="nentype">Ordenar por Tipo Nen</option>
+            </select>
+            <select id="sortDirection">
+                <option value="asc">Crescente</option>
+                <option value="desc">Decrescente</option>
+            </select>
+            <button onclick="searchCards()">🔍 Buscar</button>
+            <button onclick="loadAllCards()">📋 Listar Todos</button>
+        </div>
 
-    <footer>
-        API Hunter x Hunter © Senac TSI
-    </footer>
+        <div class="nen-types">
+            <div class="nen-type-filter" onclick="filterByNenType('')">Todos</div>
+            <div class="nen-type-filter" onclick="filterByNenType('Fortificador')">Fortificador</div>
+            <div class="nen-type-filter" onclick="filterByNenType('Transmutador')">Transmutador</div>
+            <div class="nen-type-filter" onclick="filterByNenType('Conjurador')">Conjurador</div>
+            <div class="nen-type-filter" onclick="filterByNenType('Emissor')">Emissor</div>
+            <div class="nen-type-filter" onclick="filterByNenType('Manipulador')">Manipulador</div>
+            <div class="nen-type-filter" onclick="filterByNenType('Especialista')">Especialista</div>
+        </div>
+
+        <div id="pagination" class="pagination"></div>
+        <div id="cardsContainer" class="cards-container"></div>
+        <div id="paginationBottom" class="pagination"></div>
+    </div>
 
     <script>
-        async function carregarCards() {
+        const API_BASE_URL = '';
+        let currentPage = 1;
+        let currentSearch = '';
+        let currentNenType = '';
+
+        async function loadAllCards(page = 1) {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '<div class="loading">Carregando cartas...</div>';
+
             try {
-                // Ajuste a URL da API aqui
-                const resposta = await fetch("https://hunter-8ttu.onrender.com/q/swagger-ui/");
-                const cards = await resposta.json();
-
-                const container = document.getElementById("cards-container");
-                container.innerHTML = "";
-
-                cards.forEach(c => {
-                    const card = document.createElement("div");
-                    card.className = "card";
-
-                    card.innerHTML = `
-            <h2>${c.hunterName}</h2>
-            <p><strong>Habilidade Nen:</strong> ${c.nenability}</p>
-            <p><strong>Exame:</strong> ${c.exam || "Desconhecido"}</p>
-            <span class="nen-badge ${c.nentype}">${c.nentype}</span>
-          `;
-
-                    container.appendChild(card);
-                });
-            } catch (e) {
-                const container = document.getElementById("cards-container");
-                container.innerHTML = "<p style='grid-column: 1 / -1; text-align:center; color:red;'>Erro ao carregar dados da API</p>";
-                console.error("Erro ao carregar cards:", e);
+                const response = await fetch(`${API_BASE_URL}/cards?page=${page}&size=12`);
+                const cards = await response.json();
+                displayCards(cards);
+            } catch (error) {
+                container.innerHTML = '<div class="error">Erro ao carregar as cartas. Verifique se a API está rodando.</div>';
+                console.error('Erro:', error);
             }
         }
 
-        carregarCards();
+        async function searchCards(page = 1) {
+            const container = document.getElementById('cardsContainer');
+            const searchTerm = document.getElementById('searchInput').value;
+            const sortField = document.getElementById('sortField').value;
+            const sortDirection = document.getElementById('sortDirection').value;
+
+            container.innerHTML = '<div class="loading">Buscando cartas...</div>';
+
+            try {
+                let url = `${API_BASE_URL}/cards/search?page=${page}&size=12&sort=${sortField}&direction=${sortDirection}`;
+
+                if (searchTerm || currentNenType) {
+                    url += `&q=${currentNenType || searchTerm}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+                displayCards(data.cards || []);
+                displayPagination(data.pagination);
+            } catch (error) {
+                container.innerHTML = '<div class="error">Erro ao buscar as cartas.</div>';
+                console.error('Erro:', error);
+            }
+        }
+
+        function displayCards(cards) {
+            const container = document.getElementById('cardsContainer');
+
+            if (!cards || cards.length === 0) {
+                container.innerHTML = '<div class="error">Nenhuma carta encontrada.</div>';
+                return;
+            }
+
+            container.innerHTML = cards.map(card => `
+                <div class="card">
+                    <div class="card-id">#${card.id}</div>
+                    <div class="card-content">
+                        <div class="hunter-name">${card.hunterName || 'Hunter Desconhecido'}</div>
+                        <div class="nen-ability">"${card.nenability || 'Habilidade não especificada'}"</div>
+                        <div class="nen-type">${card.nentype || 'Tipo desconhecido'}</div>
+                        ${card.exam ? `<div class="exam-info">📝 Exame: ${card.exam}</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayPagination(pagination) {
+            if (!pagination) return;
+
+            const paginationHTML = `
+                <button onclick="searchCards(1)" ${pagination.page === 1 ? 'disabled' : ''}>Primeira</button>
+                <button onclick="searchCards(${pagination.page - 1})" ${pagination.page === 1 ? 'disabled' : ''}>Anterior</button>
+                <button class="active">${pagination.page} / ${pagination.totalPages}</button>
+                <button onclick="searchCards(${pagination.page + 1})" ${pagination.page >= pagination.totalPages ? 'disabled' : ''}>Próxima</button>
+                <button onclick="searchCards(${pagination.totalPages})" ${pagination.page >= pagination.totalPages ? 'disabled' : ''}>Última</button>
+            `;
+
+            document.getElementById('pagination').innerHTML = paginationHTML;
+            document.getElementById('paginationBottom').innerHTML = paginationHTML;
+        }
+
+        function filterByNenType(type) {
+            currentNenType = type;
+            document.getElementById('searchInput').value = type;
+
+            document.querySelectorAll('.nen-type-filter').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            event.target.classList.add('active');
+            searchCards(1);
+        }
+
+        // Carregar cartas ao iniciar
+        loadAllCards();
     </script>
 </body>
-
 
 </html>
