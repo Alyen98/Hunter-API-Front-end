@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hunter x Hunter - Cartas Nen</title>
+    <title>Hunter x Hunter - Nen Cards</title>
     <style>
         * {
             margin: 0;
@@ -28,9 +27,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background:
-                repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(0, 0, 0, 0.03) 100px, rgba(0, 0, 0, 0.03) 101px),
-                repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(0, 0, 0, 0.03) 100px, rgba(0, 0, 0, 0.03) 101px);
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(0,0,0,0.03) 100px, rgba(0,0,0,0.03) 101px),
+                repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(0,0,0,0.03) 100px, rgba(0,0,0,0.03) 101px);
             pointer-events: none;
             z-index: 0;
         }
@@ -64,23 +63,14 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 0.8;
-            }
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
         .header h1 {
             font-size: 3.5em;
             color: #FFD700;
-            text-shadow:
+            text-shadow: 
                 3px 3px 0 #2E5C8A,
                 6px 6px 15px rgba(0, 0, 0, 0.8);
             margin-bottom: 10px;
@@ -224,7 +214,7 @@
 
         .card:hover {
             transform: translateY(-12px) scale(1.02);
-            box-shadow:
+            box-shadow: 
                 0 20px 50px rgba(74, 144, 226, 0.4),
                 0 0 30px rgba(255, 215, 0, 0.3);
             border-color: #FFD700;
@@ -361,11 +351,10 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header">
-            <h1>HUNTER × HUNTER</h1>
+            <h1>⚡ HUNTER × HUNTER ⚡</h1>
             <p>Sistema de Cartas Nen</p>
         </div>
 
@@ -400,22 +389,67 @@
     </div>
 
     <script>
-        const API_BASE_URL = '';
+        const API_BASE_URL = 'https://hunter-8ttu.onrender.com';
+        const USE_MOCK_DATA = false; // Altere para false quando a API estiver funcionando
         let currentPage = 1;
         let currentSearch = '';
         let currentNenType = '';
+
+        // Dados de exemplo para testar a interface
+        const mockCards = [
+            { id: 1, hunterName: "Gon Freecss", nenability: "Jajanken", nentype: "Fortificador", exam: "Exame Hunter 287" },
+            { id: 2, hunterName: "Killua Zoldyck", nenability: "Godspeed", nentype: "Transmutador", exam: "Exame Hunter 287" },
+            { id: 3, hunterName: "Kurapika", nenability: "Chain Jail", nentype: "Conjurador", exam: "Exame Hunter 287" },
+            { id: 4, hunterName: "Leorio Paradinight", nenability: "Remote Punch", nentype: "Emissor", exam: "Exame Hunter 287" },
+            { id: 5, hunterName: "Hisoka Morow", nenability: "Bungee Gum", nentype: "Transmutador", exam: "Exame Hunter 286" },
+            { id: 6, hunterName: "Biscuit Krueger", nenability: "Magical Spa Services", nentype: "Transmutador", exam: "Exame Hunter 250" },
+            { id: 7, hunterName: "Wing", nenability: "Shingen-ryu", nentype: "Fortificador", exam: "Exame Hunter 265" },
+            { id: 8, hunterName: "Netero", nenability: "100-Type Guanyin Bodhisattva", nentype: "Fortificador", exam: "Exame Hunter 200" },
+            { id: 9, hunterName: "Morel", nenability: "Deep Purple", nentype: "Manipulador", exam: "Exame Hunter 270" },
+            { id: 10, hunterName: "Knuckle", nenability: "Hakoware", nentype: "Emissor", exam: "Exame Hunter 280" },
+            { id: 11, hunterName: "Shoot", nenability: "Hotel Rafflesia", nentype: "Manipulador", exam: "Exame Hunter 280" },
+            { id: 12, hunterName: "Palm", nenability: "Wink Blue", nentype: "Fortificador", exam: "Exame Hunter 285" }
+        ];
 
         async function loadAllCards(page = 1) {
             const container = document.getElementById('cardsContainer');
             container.innerHTML = '<div class="loading">Carregando cartas...</div>';
 
+            if (USE_MOCK_DATA) {
+                // Simular delay de rede
+                await new Promise(resolve => setTimeout(resolve, 500));
+                displayCards(mockCards);
+                displayPagination({ page: 1, size: 12, totalElements: 12, totalPages: 1 });
+                return;
+            }
+
             try {
                 const response = await fetch(`${API_BASE_URL}/cards?page=${page}&size=12`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    throw new Error("Resposta não é JSON válido");
+                }
+                
                 const cards = await response.json();
                 displayCards(cards);
             } catch (error) {
-                container.innerHTML = '<div class="error">Erro ao carregar as cartas. Verifique se a API está rodando.</div>';
-                console.error('Erro:', error);
+                container.innerHTML = `
+                    <div class="error">
+                        <p>⚠️ Erro ao carregar as cartas</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;">
+                            ${error.message}
+                        </p>
+                        <p style="font-size: 0.85em; margin-top: 15px; opacity: 0.8;">
+                            💡 Dica: Altere USE_MOCK_DATA = true no código para usar dados de exemplo
+                        </p>
+                    </div>
+                `;
+                console.error('Erro detalhado:', error);
             }
         }
 
@@ -424,29 +458,87 @@
             const searchTerm = document.getElementById('searchInput').value;
             const sortField = document.getElementById('sortField').value;
             const sortDirection = document.getElementById('sortDirection').value;
-
+            
             container.innerHTML = '<div class="loading">Buscando cartas...</div>';
+
+            if (USE_MOCK_DATA) {
+                // Simular delay de rede
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Filtrar dados mockados
+                let filteredCards = [...mockCards];
+                
+                if (searchTerm || currentNenType) {
+                    const query = (currentNenType || searchTerm).toLowerCase();
+                    filteredCards = filteredCards.filter(card => 
+                        card.hunterName.toLowerCase().includes(query) ||
+                        card.nenability.toLowerCase().includes(query) ||
+                        card.nentype.toLowerCase().includes(query)
+                    );
+                }
+                
+                // Ordenar
+                filteredCards.sort((a, b) => {
+                    let aVal = a[sortField] || '';
+                    let bVal = b[sortField] || '';
+                    
+                    if (sortDirection === 'asc') {
+                        return aVal > bVal ? 1 : -1;
+                    } else {
+                        return aVal < bVal ? 1 : -1;
+                    }
+                });
+                
+                displayCards(filteredCards);
+                displayPagination({ 
+                    page: 1, 
+                    size: filteredCards.length, 
+                    totalElements: filteredCards.length, 
+                    totalPages: 1 
+                });
+                return;
+            }
 
             try {
                 let url = `${API_BASE_URL}/cards/search?page=${page}&size=12&sort=${sortField}&direction=${sortDirection}`;
-
+                
                 if (searchTerm || currentNenType) {
-                    url += `&q=${currentNenType || searchTerm}`;
+                    url += `&q=${encodeURIComponent(currentNenType || searchTerm)}`;
                 }
 
                 const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    throw new Error("Resposta não é JSON válido");
+                }
+                
                 const data = await response.json();
                 displayCards(data.cards || []);
                 displayPagination(data.pagination);
             } catch (error) {
-                container.innerHTML = '<div class="error">Erro ao buscar as cartas.</div>';
-                console.error('Erro:', error);
+                container.innerHTML = `
+                    <div class="error">
+                        <p>⚠️ Erro ao buscar as cartas</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;">
+                            ${error.message}
+                        </p>
+                        <p style="font-size: 0.85em; margin-top: 15px; opacity: 0.8;">
+                            💡 Dica: Altere USE_MOCK_DATA = true no código para usar dados de exemplo
+                        </p>
+                    </div>
+                `;
+                console.error('Erro detalhado:', error);
             }
         }
 
         function displayCards(cards) {
             const container = document.getElementById('cardsContainer');
-
+            
             if (!cards || cards.length === 0) {
                 container.innerHTML = '<div class="error">Nenhuma carta encontrada.</div>';
                 return;
@@ -483,11 +575,11 @@
         function filterByNenType(type) {
             currentNenType = type;
             document.getElementById('searchInput').value = type;
-
+            
             document.querySelectorAll('.nen-type-filter').forEach(el => {
                 el.classList.remove('active');
             });
-
+            
             event.target.classList.add('active');
             searchCards(1);
         }
@@ -496,5 +588,4 @@
         loadAllCards();
     </script>
 </body>
-
 </html>
