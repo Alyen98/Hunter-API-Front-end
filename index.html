@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hunter x Hunter - Nen Cards</title>
+    <title>Hunter x Hunter API Manager</title>
     <style>
         * {
             margin: 0;
@@ -12,580 +12,811 @@
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #8B6B47 0%, #5C4A3A 50%, #3D2E23 100%);
-            color: #2c2416;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(0,0,0,0.03) 100px, rgba(0,0,0,0.03) 101px),
-                repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(0,0,0,0.03) 100px, rgba(0,0,0,0.03) 101px);
-            pointer-events: none;
-            z-index: 0;
         }
 
         .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #4A90E2 0%, #2E5C8A 100%);
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            border: 4px solid #FFD700;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .header h1 {
-            font-size: 3.5em;
-            color: #FFD700;
-            text-shadow: 
-                3px 3px 0 #2E5C8A,
-                6px 6px 15px rgba(0, 0, 0, 0.8);
-            margin-bottom: 10px;
-            letter-spacing: 3px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header p {
-            font-size: 1.3em;
-            color: #E8F4FF;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 1;
-        }
-
-        .controls {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 30px;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.2) 0%, rgba(46, 92, 138, 0.2) 100%);
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
             border-radius: 15px;
-            border: 3px solid rgba(255, 215, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .controls input,
-        .controls select,
-        .controls button {
-            padding: 14px 24px;
-            border: 3px solid #4A90E2;
-            border-radius: 10px;
-            font-size: 1.05em;
-            background: rgba(255, 255, 255, 0.95);
-            color: #2c2416;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .controls input:focus,
-        .controls select:focus {
-            outline: none;
-            border-color: #FFD700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            transform: scale(1.02);
-        }
-
-        .controls button {
-            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            border-color: #228B22;
-        }
-
-        .controls button:hover {
-            background: linear-gradient(135deg, #3FE03F 0%, #2BA52B 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(50, 205, 50, 0.4);
-        }
-
-        .nen-types {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 30px;
-            padding: 20px;
-        }
-
-        .nen-type-filter {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(230, 230, 230, 0.9) 100%);
-            border: 3px solid #4A90E2;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            color: #2c2416;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .nen-type-filter:hover {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
-            border-color: #FFD700;
-            color: #2c2416;
-        }
-
-        .nen-type-filter.active {
-            background: linear-gradient(135deg, #9370DB 0%, #6A4C93 100%);
-            border-color: #9370DB;
-            color: white;
-            transform: scale(1.08);
-            box-shadow: 0 8px 25px rgba(147, 112, 219, 0.6);
-        }
-
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-            padding: 20px;
-        }
-
-        .card {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%);
-            border: 4px solid #4A90E2;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s;
-            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #32CD32 0%, #4A90E2 50%, #FFD700 100%);
-        }
-
-        .card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
-            transition: all 0.5s;
-            opacity: 0;
-        }
-
-        .card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 
-                0 20px 50px rgba(74, 144, 226, 0.4),
-                0 0 30px rgba(255, 215, 0, 0.3);
-            border-color: #FFD700;
-        }
-
-        .card:hover::after {
-            top: -25%;
-            right: -25%;
-            opacity: 1;
-        }
-
-        .card-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .card-id {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #2c2416;
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1em;
-            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
-            border: 2px solid #FFA500;
-        }
-
-        .hunter-name {
-            font-size: 2em;
-            color: #2E5C8A;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            font-weight: bold;
-            padding-top: 10px;
-        }
-
-        .nen-ability {
-            font-size: 1.4em;
-            color: #32CD32;
-            margin-bottom: 15px;
-            font-style: italic;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .nen-type {
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #9370DB 0%, #6A4C93 100%);
-            border: 3px solid #9370DB;
-            border-radius: 25px;
-            margin: 15px 0;
-            font-weight: bold;
+        header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(147, 112, 219, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            padding: 30px;
+            text-align: center;
         }
 
-        .exam-info {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 3px solid #4A90E2;
-            color: #2c2416;
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.8;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f7fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-size: 16px;
             font-weight: 600;
-            font-size: 1.1em;
+            color: #4a5568;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #edf2f7;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+        }
+
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+        .btn-warning {
+            background: #ed8936;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #dd6b20;
+        }
+
+        .api-config {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            min-height: 100px;
+        }
+
+        .results h3 {
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .card-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .card-item h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .card-item p {
+            color: #4a5568;
+            margin: 5px 0;
+        }
+
+        .actions {
+            margin-top: 10px;
         }
 
         .loading {
             text-align: center;
-            font-size: 1.8em;
-            color: #FFD700;
-            padding: 60px;
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.2) 0%, rgba(46, 92, 138, 0.2) 100%);
-            border-radius: 15px;
-            border: 3px solid rgba(255, 215, 0, 0.5);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            color: #667eea;
+            font-weight: 600;
         }
 
         .error {
-            background: linear-gradient(135deg, rgba(220, 53, 69, 0.3) 0%, rgba(200, 35, 51, 0.3) 100%);
-            border: 3px solid #dc3545;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            margin: 20px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin: 30px 0;
-            flex-wrap: wrap;
+        .success {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
 
-        .pagination button {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
-            border: 3px solid #4A90E2;
-            border-radius: 10px;
-            color: #2c2416;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .pagination button:hover:not(:disabled) {
-            background: linear-gradient(135deg, #4A90E2 0%, #2E5C8A 100%);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
-        }
-
-        .pagination button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .pagination .active {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #2c2416;
-            font-weight: bold;
-            border-color: #FFD700;
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+        @media (max-width: 768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>⚡ HUNTER × HUNTER ⚡</h1>
-            <p>Sistema de Cartas Nen</p>
+        <header>
+            <h1>🎯 Hunter x Hunter API</h1>
+            <p>Gerenciador completo de Hunters, Cards e Exames</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('hunters')">Hunters</button>
+            <button class="tab" onclick="showTab('cards')">Cards</button>
+            <button class="tab" onclick="showTab('exams')">Exames</button>
         </div>
 
-        <div class="controls">
-            <input type="text" id="searchInput" placeholder="Buscar hunter, habilidade ou tipo...">
-            <select id="sortField">
-                <option value="id">Ordenar por ID</option>
-                <option value="hunterName">Ordenar por Nome</option>
-                <option value="nentype">Ordenar por Tipo Nen</option>
-            </select>
-            <select id="sortDirection">
-                <option value="asc">Crescente</option>
-                <option value="desc">Decrescente</option>
-            </select>
-            <button onclick="searchCards()">🔍 Buscar</button>
-            <button onclick="loadAllCards()">📋 Listar Todos</button>
-        </div>
+        <div class="content">
+            <!-- API Configuration -->
+            <div class="api-config">
+                <label>URL Base da API:</label>
+                <input type="text" id="apiUrl" value="https://hunter-8ttu.onrender.com" placeholder="https://hunter-8ttu.onrender.com">
+            </div>
 
-        <div class="nen-types">
-            <div class="nen-type-filter" onclick="filterByNenType('')">Todos</div>
-            <div class="nen-type-filter" onclick="filterByNenType('Fortificador')">Fortificador</div>
-            <div class="nen-type-filter" onclick="filterByNenType('Transmutador')">Transmutador</div>
-            <div class="nen-type-filter" onclick="filterByNenType('Conjurador')">Conjurador</div>
-            <div class="nen-type-filter" onclick="filterByNenType('Emissor')">Emissor</div>
-            <div class="nen-type-filter" onclick="filterByNenType('Manipulador')">Manipulador</div>
-            <div class="nen-type-filter" onclick="filterByNenType('Especialista')">Especialista</div>
-        </div>
+            <!-- HUNTERS SECTION -->
+            <div id="hunters" class="section active">
+                <h2>Gerenciar Hunters</h2>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>ID do Hunter (para GET/PUT/DELETE):</label>
+                        <input type="number" id="hunterId" placeholder="Digite o ID">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome:</label>
+                        <input type="text" id="hunterName" placeholder="Nome do Hunter (3-100 caracteres)">
+                    </div>
+                </div>
 
-        <div id="pagination" class="pagination"></div>
-        <div id="cardsContainer" class="cards-container"></div>
-        <div id="paginationBottom" class="pagination"></div>
+                <div class="form-group">
+                    <label>Idade:</label>
+                    <input type="number" id="hunterAge" placeholder="Idade (mínimo 1)" min="1">
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="getAllHunters()">Listar Todos</button>
+                    <button class="btn btn-success" onclick="getHunterById()">Buscar por ID</button>
+                    <button class="btn btn-success" onclick="createHunter()">Criar Novo</button>
+                    <button class="btn btn-warning" onclick="updateHunter()">Atualizar</button>
+                    <button class="btn btn-danger" onclick="deleteHunter()">Deletar</button>
+                </div>
+
+                <div id="huntersResults" class="results"></div>
+            </div>
+
+            <!-- CARDS SECTION -->
+            <div id="cards" class="section">
+                <h2>Gerenciar Cards Nen</h2>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>ID do Card (para GET/PUT/DELETE):</label>
+                        <input type="number" id="cardId" placeholder="Digite o ID">
+                    </div>
+                    <div class="form-group">
+                        <label>ID do Hunter (dono do card):</label>
+                        <input type="number" id="cardHunterId" placeholder="ID do Hunter">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Habilidade Nen:</label>
+                    <input type="text" id="cardNenAbility" placeholder="Nome da habilidade">
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Tipo Nen:</label>
+                        <select id="cardNenType">
+                            <option value="">Selecione...</option>
+                            <option value="Fortificador">Fortificador</option>
+                            <option value="Emissor">Emissor</option>
+                            <option value="Manipulador">Manipulador</option>
+                            <option value="Conjurador">Conjurador</option>
+                            <option value="Transmutador">Transmutador</option>
+                            <option value="Especialista">Especialista</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Exame:</label>
+                        <input type="text" id="cardExam" placeholder="Nome do exame (opcional)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Buscar Cards (opcional):</label>
+                    <input type="text" id="cardSearch" placeholder="Termo de busca">
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="getAllCards()">Listar Todos</button>
+                    <button class="btn btn-primary" onclick="searchCards()">Buscar</button>
+                    <button class="btn btn-success" onclick="getCardById()">Buscar por ID</button>
+                    <button class="btn btn-success" onclick="createCard()">Criar Novo</button>
+                    <button class="btn btn-warning" onclick="updateCard()">Atualizar</button>
+                    <button class="btn btn-danger" onclick="deleteCard()">Deletar</button>
+                </div>
+
+                <div id="cardsResults" class="results"></div>
+            </div>
+
+            <!-- EXAMS SECTION -->
+            <div id="exams" class="section">
+                <h2>Gerenciar Exames</h2>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>ID do Exame (para GET/PUT/DELETE):</label>
+                        <input type="number" id="examId" placeholder="Digite o ID">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome do Exame:</label>
+                        <input type="text" id="examName" placeholder="Nome do exame">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ano do Exame:</label>
+                    <input type="number" id="examYear" placeholder="Ex: 2024">
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="getAllExams()">Listar Todos</button>
+                    <button class="btn btn-success" onclick="getExamById()">Buscar por ID</button>
+                    <button class="btn btn-success" onclick="createExam()">Criar Novo</button>
+                    <button class="btn btn-warning" onclick="updateExam()">Atualizar</button>
+                    <button class="btn btn-danger" onclick="deleteExam()">Deletar</button>
+                </div>
+
+                <div id="examsResults" class="results"></div>
+            </div>
+        </div>
     </div>
 
     <script>
-        const API_BASE_URL = 'https://hunter-8ttu.onrender.com';
-        const USE_MOCK_DATA = false; // Altere para false quando a API estiver funcionando
-        let currentPage = 1;
-        let currentSearch = '';
-        let currentNenType = '';
+        const getApiUrl = () => document.getElementById('apiUrl').value;
 
-        // Dados de exemplo para testar a interface
-        const mockCards = [
-            { id: 1, hunterName: "Gon Freecss", nenability: "Jajanken", nentype: "Fortificador", exam: "Exame Hunter 287" },
-            { id: 2, hunterName: "Killua Zoldyck", nenability: "Godspeed", nentype: "Transmutador", exam: "Exame Hunter 287" },
-            { id: 3, hunterName: "Kurapika", nenability: "Chain Jail", nentype: "Conjurador", exam: "Exame Hunter 287" },
-            { id: 4, hunterName: "Leorio Paradinight", nenability: "Remote Punch", nentype: "Emissor", exam: "Exame Hunter 287" },
-            { id: 5, hunterName: "Hisoka Morow", nenability: "Bungee Gum", nentype: "Transmutador", exam: "Exame Hunter 286" },
-            { id: 6, hunterName: "Biscuit Krueger", nenability: "Magical Spa Services", nentype: "Transmutador", exam: "Exame Hunter 250" },
-            { id: 7, hunterName: "Wing", nenability: "Shingen-ryu", nentype: "Fortificador", exam: "Exame Hunter 265" },
-            { id: 8, hunterName: "Netero", nenability: "100-Type Guanyin Bodhisattva", nentype: "Fortificador", exam: "Exame Hunter 200" },
-            { id: 9, hunterName: "Morel", nenability: "Deep Purple", nentype: "Manipulador", exam: "Exame Hunter 270" },
-            { id: 10, hunterName: "Knuckle", nenability: "Hakoware", nentype: "Emissor", exam: "Exame Hunter 280" },
-            { id: 11, hunterName: "Shoot", nenability: "Hotel Rafflesia", nentype: "Manipulador", exam: "Exame Hunter 280" },
-            { id: 12, hunterName: "Palm", nenability: "Wink Blue", nentype: "Fortificador", exam: "Exame Hunter 285" }
-        ];
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
 
-        async function loadAllCards(page = 1) {
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '<div class="loading">Carregando cartas...</div>';
+        function showMessage(elementId, message, type = 'success') {
+            const element = document.getElementById(elementId);
+            const className = type === 'error' ? 'error' : 'success';
+            element.innerHTML = `<div class="${className}">${message}</div>`;
+        }
 
-            if (USE_MOCK_DATA) {
-                // Simular delay de rede
-                await new Promise(resolve => setTimeout(resolve, 500));
-                displayCards(mockCards);
-                displayPagination({ page: 1, size: 12, totalElements: 12, totalPages: 1 });
-                return;
-            }
+        function showLoading(elementId) {
+            document.getElementById(elementId).innerHTML = '<div class="loading">Carregando...</div>';
+        }
 
+        // HUNTERS FUNCTIONS
+        async function getAllHunters() {
+            showLoading('huntersResults');
             try {
-                const response = await fetch(`${API_BASE_URL}/cards?page=${page}&size=12`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const contentType = response.headers.get("content-type");
-                if (!contentType || !contentType.includes("application/json")) {
-                    throw new Error("Resposta não é JSON válido");
-                }
-                
-                const cards = await response.json();
-                displayCards(cards);
+                const response = await fetch(`${getApiUrl()}/hunters`);
+                const data = await response.json();
+                displayHunters(data);
             } catch (error) {
-                container.innerHTML = `
-                    <div class="error">
-                        <p>⚠️ Erro ao carregar as cartas</p>
-                        <p style="font-size: 0.9em; margin-top: 10px;">
-                            ${error.message}
-                        </p>
-                        <p style="font-size: 0.85em; margin-top: 15px; opacity: 0.8;">
-                            💡 Dica: Altere USE_MOCK_DATA = true no código para usar dados de exemplo
-                        </p>
-                    </div>
-                `;
-                console.error('Erro detalhado:', error);
+                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
             }
         }
 
-        async function searchCards(page = 1) {
-            const container = document.getElementById('cardsContainer');
-            const searchTerm = document.getElementById('searchInput').value;
-            const sortField = document.getElementById('sortField').value;
-            const sortDirection = document.getElementById('sortDirection').value;
+        async function getHunterById() {
+            const id = document.getElementById('hunterId').value;
+            if (!id) {
+                showMessage('huntersResults', 'Por favor, insira um ID', 'error');
+                return;
+            }
             
-            container.innerHTML = '<div class="loading">Buscando cartas...</div>';
+            showLoading('huntersResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/hunters/${id}`);
+                if (!response.ok) throw new Error('Hunter não encontrado');
+                const data = await response.json();
+                displayHunters([data]);
+            } catch (error) {
+                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
+            }
+        }
 
-            if (USE_MOCK_DATA) {
-                // Simular delay de rede
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
-                // Filtrar dados mockados
-                let filteredCards = [...mockCards];
-                
-                if (searchTerm || currentNenType) {
-                    const query = (currentNenType || searchTerm).toLowerCase();
-                    filteredCards = filteredCards.filter(card => 
-                        card.hunterName.toLowerCase().includes(query) ||
-                        card.nenability.toLowerCase().includes(query) ||
-                        card.nentype.toLowerCase().includes(query)
-                    );
-                }
-                
-                // Ordenar
-                filteredCards.sort((a, b) => {
-                    let aVal = a[sortField] || '';
-                    let bVal = b[sortField] || '';
-                    
-                    if (sortDirection === 'asc') {
-                        return aVal > bVal ? 1 : -1;
-                    } else {
-                        return aVal < bVal ? 1 : -1;
-                    }
-                });
-                
-                displayCards(filteredCards);
-                displayPagination({ 
-                    page: 1, 
-                    size: filteredCards.length, 
-                    totalElements: filteredCards.length, 
-                    totalPages: 1 
-                });
+        async function createHunter() {
+            const name = document.getElementById('hunterName').value;
+            const age = document.getElementById('hunterAge').value;
+            
+            if (!name || !age) {
+                showMessage('huntersResults', 'Preencha nome e idade', 'error');
                 return;
             }
 
+            const hunter = { name, age: parseInt(age) };
+            
+            showLoading('huntersResults');
             try {
-                let url = `${API_BASE_URL}/cards/search?page=${page}&size=12&sort=${sortField}&direction=${sortDirection}`;
+                const response = await fetch(`${getApiUrl()}/hunters`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(hunter)
+                });
                 
-                if (searchTerm || currentNenType) {
-                    url += `&q=${encodeURIComponent(currentNenType || searchTerm)}`;
-                }
-
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const contentType = response.headers.get("content-type");
-                if (!contentType || !contentType.includes("application/json")) {
-                    throw new Error("Resposta não é JSON válido");
-                }
-                
-                const data = await response.json();
-                displayCards(data.cards || []);
-                displayPagination(data.pagination);
+                if (!response.ok) throw new Error('Erro ao criar hunter');
+                showMessage('huntersResults', 'Hunter criado com sucesso!');
+                setTimeout(getAllHunters, 1000);
             } catch (error) {
-                container.innerHTML = `
-                    <div class="error">
-                        <p>⚠️ Erro ao buscar as cartas</p>
-                        <p style="font-size: 0.9em; margin-top: 10px;">
-                            ${error.message}
-                        </p>
-                        <p style="font-size: 0.85em; margin-top: 15px; opacity: 0.8;">
-                            💡 Dica: Altere USE_MOCK_DATA = true no código para usar dados de exemplo
-                        </p>
+                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function updateHunter() {
+            const id = document.getElementById('hunterId').value;
+            const name = document.getElementById('hunterName').value;
+            const age = document.getElementById('hunterAge').value;
+            
+            if (!id || !name || !age) {
+                showMessage('huntersResults', 'Preencha ID, nome e idade', 'error');
+                return;
+            }
+
+            const hunter = { name, age: parseInt(age) };
+            
+            showLoading('huntersResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/hunters/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(hunter)
+                });
+                
+                if (!response.ok) throw new Error('Erro ao atualizar hunter');
+                showMessage('huntersResults', 'Hunter atualizado com sucesso!');
+                setTimeout(getAllHunters, 1000);
+            } catch (error) {
+                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function deleteHunter() {
+            const id = document.getElementById('hunterId').value;
+            if (!id) {
+                showMessage('huntersResults', 'Por favor, insira um ID', 'error');
+                return;
+            }
+            
+            if (!confirm('Tem certeza que deseja deletar este hunter?')) return;
+            
+            showLoading('huntersResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/hunters/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) throw new Error('Erro ao deletar hunter');
+                showMessage('huntersResults', 'Hunter deletado com sucesso!');
+                setTimeout(getAllHunters, 1000);
+            } catch (error) {
+                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        function displayHunters(hunters) {
+            const resultsDiv = document.getElementById('huntersResults');
+            if (!hunters || hunters.length === 0) {
+                resultsDiv.innerHTML = '<p>Nenhum hunter encontrado</p>';
+                return;
+            }
+
+            let html = '<h3>Hunters:</h3>';
+            hunters.forEach(hunter => {
+                html += `
+                    <div class="card-item">
+                        <h4>🎯 ${hunter.name || 'Sem nome'}</h4>
+                        <p><strong>ID:</strong> ${hunter.id}</p>
+                        <p><strong>Idade:</strong> ${hunter.age || 'N/A'}</p>
                     </div>
                 `;
-                console.error('Erro detalhado:', error);
+            });
+            resultsDiv.innerHTML = html;
+        }
+
+        // CARDS FUNCTIONS
+        async function getAllCards() {
+            showLoading('cardsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/cards`);
+                const data = await response.json();
+                displayCards(data);
+            } catch (error) {
+                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function searchCards() {
+            const query = document.getElementById('cardSearch').value;
+            showLoading('cardsResults');
+            try {
+                const url = query 
+                    ? `${getApiUrl()}/cards/search?q=${encodeURIComponent(query)}`
+                    : `${getApiUrl()}/cards/search`;
+                const response = await fetch(url);
+                const data = await response.json();
+                displayCards(data.cards || data);
+            } catch (error) {
+                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function getCardById() {
+            const id = document.getElementById('cardId').value;
+            if (!id) {
+                showMessage('cardsResults', 'Por favor, insira um ID', 'error');
+                return;
+            }
+            
+            showLoading('cardsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/cards/${id}`);
+                if (!response.ok) throw new Error('Card não encontrado');
+                const data = await response.json();
+                displayCards([data]);
+            } catch (error) {
+                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function createCard() {
+            const hunterId = document.getElementById('cardHunterId').value;
+            const nenAbility = document.getElementById('cardNenAbility').value;
+            const nenType = document.getElementById('cardNenType').value;
+            const exam = document.getElementById('cardExam').value;
+            
+            if (!hunterId || !nenAbility || !nenType) {
+                showMessage('cardsResults', 'Preencha Hunter ID, habilidade e tipo Nen', 'error');
+                return;
+            }
+
+            const card = {
+                nenAbility,
+                nenType,
+                exam: exam || null,
+                hunter: { id: parseInt(hunterId) }
+            };
+            
+            showLoading('cardsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/cards`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(card)
+                });
+                
+                if (!response.ok) throw new Error('Erro ao criar card');
+                showMessage('cardsResults', 'Card criado com sucesso!');
+                setTimeout(getAllCards, 1000);
+            } catch (error) {
+                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function updateCard() {
+            const id = document.getElementById('cardId').value;
+            const hunterId = document.getElementById('cardHunterId').value;
+            const nenAbility = document.getElementById('cardNenAbility').value;
+            const nenType = document.getElementById('cardNenType').value;
+            const exam = document.getElementById('cardExam').value;
+            
+            if (!id || !hunterId || !nenAbility || !nenType) {
+                showMessage('cardsResults', 'Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+
+            const card = {
+                nenAbility,
+                nenType,
+                exam: exam || null,
+                hunter: { id: parseInt(hunterId) }
+            };
+            
+            showLoading('cardsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/cards/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(card)
+                });
+                
+                if (!response.ok) throw new Error('Erro ao atualizar card');
+                showMessage('cardsResults', 'Card atualizado com sucesso!');
+                setTimeout(getAllCards, 1000);
+            } catch (error) {
+                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function deleteCard() {
+            const id = document.getElementById('cardId').value;
+            if (!id) {
+                showMessage('cardsResults', 'Por favor, insira um ID', 'error');
+                return;
+            }
+            
+            if (!confirm('Tem certeza que deseja deletar este card?')) return;
+            
+            showLoading('cardsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/cards/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) throw new Error('Erro ao deletar card');
+                showMessage('cardsResults', 'Card deletado com sucesso!');
+                setTimeout(getAllCards, 1000);
+            } catch (error) {
+                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
             }
         }
 
         function displayCards(cards) {
-            const container = document.getElementById('cardsContainer');
-            
+            const resultsDiv = document.getElementById('cardsResults');
             if (!cards || cards.length === 0) {
-                container.innerHTML = '<div class="error">Nenhuma carta encontrada.</div>';
+                resultsDiv.innerHTML = '<p>Nenhum card encontrado</p>';
                 return;
             }
 
-            container.innerHTML = cards.map(card => `
-                <div class="card">
-                    <div class="card-id">#${card.id}</div>
-                    <div class="card-content">
-                        <div class="hunter-name">${card.hunterName || 'Hunter Desconhecido'}</div>
-                        <div class="nen-ability">"${card.nenability || 'Habilidade não especificada'}"</div>
-                        <div class="nen-type">${card.nentype || 'Tipo desconhecido'}</div>
-                        ${card.exam ? `<div class="exam-info">📝 Exame: ${card.exam}</div>` : ''}
+            let html = '<h3>Cards Nen:</h3>';
+            cards.forEach(card => {
+                html += `
+                    <div class="card-item">
+                        <h4>⚡ ${card.nenability || card.nenAbility || 'Sem habilidade'}</h4>
+                        <p><strong>ID:</strong> ${card.id}</p>
+                        <p><strong>Hunter:</strong> ${card.hunterName || card.hunter?.name || 'N/A'}</p>
+                        <p><strong>Tipo Nen:</strong> ${card.nentype || card.nenType || 'N/A'}</p>
+                        <p><strong>Exame:</strong> ${card.exam || 'N/A'}</p>
                     </div>
-                </div>
-            `).join('');
-        }
-
-        function displayPagination(pagination) {
-            if (!pagination) return;
-
-            const paginationHTML = `
-                <button onclick="searchCards(1)" ${pagination.page === 1 ? 'disabled' : ''}>Primeira</button>
-                <button onclick="searchCards(${pagination.page - 1})" ${pagination.page === 1 ? 'disabled' : ''}>Anterior</button>
-                <button class="active">${pagination.page} / ${pagination.totalPages}</button>
-                <button onclick="searchCards(${pagination.page + 1})" ${pagination.page >= pagination.totalPages ? 'disabled' : ''}>Próxima</button>
-                <button onclick="searchCards(${pagination.totalPages})" ${pagination.page >= pagination.totalPages ? 'disabled' : ''}>Última</button>
-            `;
-
-            document.getElementById('pagination').innerHTML = paginationHTML;
-            document.getElementById('paginationBottom').innerHTML = paginationHTML;
-        }
-
-        function filterByNenType(type) {
-            currentNenType = type;
-            document.getElementById('searchInput').value = type;
-            
-            document.querySelectorAll('.nen-type-filter').forEach(el => {
-                el.classList.remove('active');
+                `;
             });
-            
-            event.target.classList.add('active');
-            searchCards(1);
+            resultsDiv.innerHTML = html;
         }
 
-        // Carregar cartas ao iniciar
-        loadAllCards();
+        // EXAMS FUNCTIONS
+        async function getAllExams() {
+            showLoading('examsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/exams`);
+                const data = await response.json();
+                displayExams(data);
+            } catch (error) {
+                showMessage('examsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function getExamById() {
+            const id = document.getElementById('examId').value;
+            if (!id) {
+                showMessage('examsResults', 'Por favor, insira um ID', 'error');
+                return;
+            }
+            
+            showLoading('examsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/exams/${id}`);
+                if (!response.ok) throw new Error('Exame não encontrado');
+                const data = await response.json();
+                displayExams([data]);
+            } catch (error) {
+                showMessage('examsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function createExam() {
+            const name = document.getElementById('examName').value;
+            const examYear = document.getElementById('examYear').value;
+            
+            if (!name) {
+                showMessage('examsResults', 'Preencha o nome do exame', 'error');
+                return;
+            }
+
+            const exam = { 
+                name,
+                examYear: examYear ? parseInt(examYear) : null
+            };
+            
+            showLoading('examsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/exams`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(exam)
+                });
+                
+                if (!response.ok) throw new Error('Erro ao criar exame');
+                showMessage('examsResults', 'Exame criado com sucesso!');
+                setTimeout(getAllExams, 1000);
+            } catch (error) {
+                showMessage('examsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function updateExam() {
+            const id = document.getElementById('examId').value;
+            const name = document.getElementById('examName').value;
+            const examYear = document.getElementById('examYear').value;
+            
+            if (!id || !name) {
+                showMessage('examsResults', 'Preencha ID e nome', 'error');
+                return;
+            }
+
+            const exam = { 
+                name,
+                examYear: examYear ? parseInt(examYear) : null
+            };
+            
+            showLoading('examsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/exams/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(exam)
+                });
+                
+                if (!response.ok) throw new Error('Erro ao atualizar exame');
+                showMessage('examsResults', 'Exame atualizado com sucesso!');
+                setTimeout(getAllExams, 1000);
+            } catch (error) {
+                showMessage('examsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        async function deleteExam() {
+            const id = document.getElementById('examId').value;
+            if (!id) {
+                showMessage('examsResults', 'Por favor, insira um ID', 'error');
+                return;
+            }
+            
+            if (!confirm('Tem certeza que deseja deletar este exame?')) return;
+            
+            showLoading('examsResults');
+            try {
+                const response = await fetch(`${getApiUrl()}/exams/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) throw new Error('Erro ao deletar exame');
+                showMessage('examsResults', 'Exame deletado com sucesso!');
+                setTimeout(getAllExams, 1000);
+            } catch (error) {
+                showMessage('examsResults', `Erro: ${error.message}`, 'error');
+            }
+        }
+
+        function displayExams(exams) {
+            const resultsDiv = document.getElementById('examsResults');
+            if (!exams || exams.length === 0) {
+                resultsDiv.innerHTML = '<p>Nenhum exame encontrado</p>';
+                return;
+            }
+
+            let html = '<h3>Exames:</h3>';
+            exams.forEach(exam => {
+                html += `
+                    <div class="card-item">
+                        <h4>📋 ${exam.name || 'Sem nome'}</h4>
+                        <p><strong>ID:</strong> ${exam.id}</p>
+                        <p><strong>Ano:</strong> ${exam.examYear || 'N/A'}</p>
+                    </div>
+                `;
+            });
+            resultsDiv.innerHTML = html;
+        }
     </script>
 </body>
 </html>
