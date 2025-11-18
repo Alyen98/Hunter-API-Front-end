@@ -1,232 +1,268 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hunter x Hunter API Manager</title>
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: url('https://wallpapercave.com/wp/wp6949337.jpg') no-repeat center center/cover;
             min-height: 100vh;
-            padding: 20px;
+            padding: 30px;
+            backdrop-filter: blur(4px);
         }
 
+        /* --------------------- CONTAINER ---------------------- */
         .container {
             max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: auto;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
             overflow: hidden;
+            border: 2px solid #00ff9d;
         }
 
+        /* ---------------------- HEADER ----------------------- */
         header {
-            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-            color: white;
-            padding: 30px;
             text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #0e0e0e, #022d1f);
+            border-bottom: 2px solid #00ff7b;
         }
 
         header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2.9rem;
+            color: #00ff9d;
+            text-shadow: 0 0 15px #00ff9d;
+            letter-spacing: 2px;
         }
 
         header p {
-            opacity: 0.8;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #d0ffee;
         }
 
+        /* ----------------------- TABS ------------------------- */
         .tabs {
             display: flex;
-            background: #f7fafc;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 2px solid #00ff7b;
+            background: rgba(0, 0, 0, 0.5);
         }
 
         .tab {
             flex: 1;
-            padding: 20px;
-            text-align: center;
+            padding: 18px;
+            font-weight: bold;
             cursor: pointer;
             background: transparent;
+            color: #9affd0;
             border: none;
-            font-size: 16px;
-            font-weight: 600;
-            color: #4a5568;
-            transition: all 0.3s;
+            font-size: 17px;
+            transition: 0.3s;
+            text-transform: uppercase;
         }
 
         .tab:hover {
-            background: #edf2f7;
+            background: rgba(0, 255, 140, 0.15);
         }
 
         .tab.active {
-            background: white;
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
+            color: #00ff9d;
+            background: rgba(0, 255, 140, 0.25);
+            border-bottom: 3px solid #00ff9d;
         }
 
+        /* ---------------------- CONTENT ----------------------- */
         .content {
             padding: 30px;
         }
 
         .section {
             display: none;
+            animation: fade 0.4s ease-in-out;
         }
 
         .section.active {
             display: block;
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        @keyframes fade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
+
+        :root {
+            --bg: #ffffff;
+            --text: #111111;
+        }
+
+        .dark {
+            --bg: #111111;
+            --text: #ffffff;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s linear, color 0.3s linear;
+            overflow-x: hidden;
+            position: relative;
+            font-family: sans-serif;
+        }
+
+        /* Botão */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            border: none;
+            cursor: pointer;
+            background: var(--text);
+            color: var(--bg);
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        /* Efeito Nen */
+        .nen-effect {
+            position: fixed;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.7;
+            background: radial-gradient(circle, rgba(255, 255, 255, 1), transparent);
+            transform: scale(0);
+            transition: transform 0.6s ease-out;
+            mix-blend-mode: screen;
+        }
+
+
+
+        /* --------------------- FORM INPUTS --------------------- */
         label {
+            color: #c4ffe9;
+            margin-bottom: 6px;
             display: block;
-            margin-bottom: 8px;
             font-weight: 600;
-            color: #2d3748;
         }
 
-        input, select, textarea {
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 14px;
-            transition: border 0.3s;
-        }
-
-        input:focus, select:focus, textarea:focus {
+            border: 2px solid #00ff9d;
+            background: rgba(0, 0, 0, 0.35);
+            color: #c4ffe9;
             outline: none;
-            border-color: #667eea;
+            font-size: 15px;
         }
 
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #00ffaa;
+            box-shadow: 0 0 8px #00ffaa;
+        }
+
+        /* ------------------------ BUTTONS ----------------------- */
         .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 12px 25px;
+            border-radius: 10px;
+            margin-right: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-right: 10px;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
         }
 
         .btn-primary {
-            background: #667eea;
+            background: #009dff;
             color: white;
+            box-shadow: 0 0 10px #009dff;
         }
 
         .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            background: #007acc;
+            transform: translateY(-3px);
         }
 
         .btn-success {
-            background: #48bb78;
+            background: #00c06b;
+            color: white;
+            box-shadow: 0 0 10px #00ff9d;
+        }
+
+        .btn-warning {
+            background: #ffae00;
             color: white;
         }
 
-        .btn-success:hover {
-            background: #38a169;
-        }
-
         .btn-danger {
-            background: #f56565;
+            background: #ff2b2b;
             color: white;
         }
 
         .btn-danger:hover {
-            background: #e53e3e;
+            background: #cc0000;
         }
 
-        .btn-warning {
-            background: #ed8936;
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background: #dd6b20;
-        }
-
-        .api-config {
-            background: #f7fafc;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
+        /* ------------------ RESULTS / CARDS ------------------- */
         .results {
             margin-top: 30px;
             padding: 20px;
-            background: #f7fafc;
-            border-radius: 8px;
-            min-height: 100px;
-        }
-
-        .results h3 {
-            margin-bottom: 15px;
-            color: #2d3748;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #00ff9d;
+            border-radius: 10px;
+            min-height: 80px;
+            color: white;
         }
 
         .card-item {
-            background: white;
-            padding: 15px;
-            margin-bottom: 15px;
+            background: rgba(0, 20, 10, 0.7);
+            padding: 18px;
+            border-left: 5px solid #00ff9d;
             border-radius: 8px;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
         }
 
         .card-item h4 {
-            color: #2d3748;
+            color: #00ff9d;
+            text-shadow: 0 0 10px #00ff9d;
             margin-bottom: 10px;
         }
 
         .card-item p {
-            color: #4a5568;
-            margin: 5px 0;
+            color: #c4ffe9;
+            margin: 6px 0;
         }
 
-        .actions {
-            margin-top: 10px;
-        }
-
-        .loading {
-            text-align: center;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .error {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .success {
-            background: #c6f6d5;
-            color: #22543d;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
+        /* ---------------------- GRID --------------------------- */
         .row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
         }
 
         @media (max-width: 768px) {
@@ -234,9 +270,35 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* ------------------- ALERTS --------------------------- */
+        .error {
+            background: rgba(255, 0, 0, 0.25);
+            padding: 12px;
+            border-left: 5px solid red;
+            color: #ffbaba;
+            border-radius: 8px;
+        }
+
+        .success {
+            background: rgba(0, 255, 100, 0.25);
+            padding: 12px;
+            border-left: 5px solid #00ff9d;
+            color: #c4ffe9;
+            border-radius: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #00ff9d;
+            font-weight: bold;
+            font-size: 18px;
+        }
     </style>
 </head>
+
 <body>
+
     <div class="container">
         <header>
             <h1>🎯 Hunter x Hunter API</h1>
@@ -253,13 +315,19 @@
             <!-- API Configuration -->
             <div class="api-config">
                 <label>URL Base da API:</label>
-                <input type="text" id="apiUrl" value="https://hunter-8ttu.onrender.com" placeholder="https://hunter-8ttu.onrender.com">
+                <input type="text" id="apiUrl" value="https://hunter-8ttu.onrender.com"
+                    placeholder="https://hunter-8ttu.onrender.com">
+
+                <button id="toggleTheme" class="toggle-btn">Alternar Tema</button>
+                <div class="nen-effect" id="nen"></div>
+
             </div>
 
             <!-- HUNTERS SECTION -->
             <div id="hunters" class="section active">
+                <br>
                 <h2>Gerenciar Hunters</h2>
-                
+                <br>
                 <div class="row">
                     <div class="form-group">
                         <label>ID do Hunter (para GET/PUT/DELETE):</label>
@@ -270,11 +338,12 @@
                         <input type="text" id="hunterName" placeholder="Nome do Hunter (3-100 caracteres)">
                     </div>
                 </div>
-
+                <br>
                 <div class="form-group">
                     <label>Idade:</label>
                     <input type="number" id="hunterAge" placeholder="Idade (mínimo 1)" min="1">
                 </div>
+                <br>
 
                 <div class="actions">
                     <button class="btn btn-primary" onclick="getAllHunters()">Listar Todos</button>
@@ -288,27 +357,32 @@
             </div>
 
             <!-- CARDS SECTION -->
+             <br>
             <div id="cards" class="section">
                 <h2>Gerenciar Cards Nen</h2>
-                
+
                 <div class="row">
                     <div class="form-group">
+                        <br>
                         <label>ID do Card (para GET/PUT/DELETE):</label>
                         <input type="number" id="cardId" placeholder="Digite o ID">
                     </div>
                     <div class="form-group">
+                        <br>
                         <label>ID do Hunter (dono do card):</label>
                         <input type="number" id="cardHunterId" placeholder="ID do Hunter">
                     </div>
                 </div>
 
                 <div class="form-group">
+                    <br>
                     <label>Habilidade Nen:</label>
                     <input type="text" id="cardNenAbility" placeholder="Nome da habilidade">
                 </div>
 
                 <div class="row">
                     <div class="form-group">
+                        <br>
                         <label>Tipo Nen:</label>
                         <select id="cardNenType">
                             <option value="">Selecione...</option>
@@ -321,17 +395,20 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <br>
                         <label>Exame:</label>
                         <input type="text" id="cardExam" placeholder="Nome do exame (opcional)">
                     </div>
                 </div>
 
                 <div class="form-group">
+                    <br>
                     <label>Buscar Cards (opcional):</label>
                     <input type="text" id="cardSearch" placeholder="Termo de busca">
                 </div>
 
                 <div class="actions">
+                    <br>
                     <button class="btn btn-primary" onclick="getAllCards()">Listar Todos</button>
                     <button class="btn btn-primary" onclick="searchCards()">Buscar</button>
                     <button class="btn btn-success" onclick="getCardById()">Buscar por ID</button>
@@ -346,24 +423,28 @@
             <!-- EXAMS SECTION -->
             <div id="exams" class="section">
                 <h2>Gerenciar Exames</h2>
-                
+
                 <div class="row">
                     <div class="form-group">
+                        <br>
                         <label>ID do Exame (para GET/PUT/DELETE):</label>
                         <input type="number" id="examId" placeholder="Digite o ID">
                     </div>
                     <div class="form-group">
+                        <br>
                         <label>Nome do Exame:</label>
                         <input type="text" id="examName" placeholder="Nome do exame">
                     </div>
                 </div>
 
                 <div class="form-group">
+                    <br>
                     <label>Ano do Exame:</label>
                     <input type="number" id="examYear" placeholder="Ex: 2024">
                 </div>
 
                 <div class="actions">
+                    <br>
                     <button class="btn btn-primary" onclick="getAllExams()">Listar Todos</button>
                     <button class="btn btn-success" onclick="getExamById()">Buscar por ID</button>
                     <button class="btn btn-success" onclick="createExam()">Criar Novo</button>
@@ -382,7 +463,7 @@
         function showTab(tabName) {
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-            
+
             event.target.classList.add('active');
             document.getElementById(tabName).classList.add('active');
         }
@@ -415,7 +496,7 @@
                 showMessage('huntersResults', 'Por favor, insira um ID', 'error');
                 return;
             }
-            
+
             showLoading('huntersResults');
             try {
                 const response = await fetch(`${getApiUrl()}/hunters/${id}`);
@@ -430,14 +511,14 @@
         async function createHunter() {
             const name = document.getElementById('hunterName').value;
             const age = document.getElementById('hunterAge').value;
-            
+
             if (!name || !age) {
                 showMessage('huntersResults', 'Preencha nome e idade', 'error');
                 return;
             }
 
             const hunter = { name, age: parseInt(age) };
-            
+
             showLoading('huntersResults');
             try {
                 const response = await fetch(`${getApiUrl()}/hunters`, {
@@ -445,7 +526,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(hunter)
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao criar hunter');
                 showMessage('huntersResults', 'Hunter criado com sucesso!');
                 setTimeout(getAllHunters, 1000);
@@ -458,14 +539,14 @@
             const id = document.getElementById('hunterId').value;
             const name = document.getElementById('hunterName').value;
             const age = document.getElementById('hunterAge').value;
-            
+
             if (!id || !name || !age) {
                 showMessage('huntersResults', 'Preencha ID, nome e idade', 'error');
                 return;
             }
 
             const hunter = { name, age: parseInt(age) };
-            
+
             showLoading('huntersResults');
             try {
                 const response = await fetch(`${getApiUrl()}/hunters/${id}`, {
@@ -473,7 +554,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(hunter)
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao atualizar hunter');
                 showMessage('huntersResults', 'Hunter atualizado com sucesso!');
                 setTimeout(getAllHunters, 1000);
@@ -488,15 +569,15 @@
                 showMessage('huntersResults', 'Por favor, insira um ID', 'error');
                 return;
             }
-            
+
             if (!confirm('Tem certeza que deseja deletar este hunter?')) return;
-            
+
             showLoading('huntersResults');
             try {
                 const response = await fetch(`${getApiUrl()}/hunters/${id}`, {
                     method: 'DELETE'
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao deletar hunter');
                 showMessage('huntersResults', 'Hunter deletado com sucesso!');
                 setTimeout(getAllHunters, 1000);
@@ -541,7 +622,7 @@
             const query = document.getElementById('cardSearch').value;
             showLoading('cardsResults');
             try {
-                const url = query 
+                const url = query
                     ? `${getApiUrl()}/cards/search?q=${encodeURIComponent(query)}`
                     : `${getApiUrl()}/cards/search`;
                 const response = await fetch(url);
@@ -558,7 +639,7 @@
                 showMessage('cardsResults', 'Por favor, insira um ID', 'error');
                 return;
             }
-            
+
             showLoading('cardsResults');
             try {
                 const response = await fetch(`${getApiUrl()}/cards/${id}`);
@@ -575,7 +656,7 @@
             const nenAbility = document.getElementById('cardNenAbility').value;
             const nenType = document.getElementById('cardNenType').value;
             const exam = document.getElementById('cardExam').value;
-            
+
             if (!hunterId || !nenAbility || !nenType) {
                 showMessage('cardsResults', 'Preencha Hunter ID, habilidade e tipo Nen', 'error');
                 return;
@@ -587,7 +668,7 @@
                 exam: exam || null,
                 hunter: { id: parseInt(hunterId) }
             };
-            
+
             showLoading('cardsResults');
             try {
                 const response = await fetch(`${getApiUrl()}/cards`, {
@@ -595,7 +676,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(card)
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao criar card');
                 showMessage('cardsResults', 'Card criado com sucesso!');
                 setTimeout(getAllCards, 1000);
@@ -610,7 +691,7 @@
             const nenAbility = document.getElementById('cardNenAbility').value;
             const nenType = document.getElementById('cardNenType').value;
             const exam = document.getElementById('cardExam').value;
-            
+
             if (!id || !hunterId || !nenAbility || !nenType) {
                 showMessage('cardsResults', 'Preencha todos os campos obrigatórios', 'error');
                 return;
@@ -622,7 +703,7 @@
                 exam: exam || null,
                 hunter: { id: parseInt(hunterId) }
             };
-            
+
             showLoading('cardsResults');
             try {
                 const response = await fetch(`${getApiUrl()}/cards/${id}`, {
@@ -630,7 +711,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(card)
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao atualizar card');
                 showMessage('cardsResults', 'Card atualizado com sucesso!');
                 setTimeout(getAllCards, 1000);
@@ -645,15 +726,15 @@
                 showMessage('cardsResults', 'Por favor, insira um ID', 'error');
                 return;
             }
-            
+
             if (!confirm('Tem certeza que deseja deletar este card?')) return;
-            
+
             showLoading('cardsResults');
             try {
                 const response = await fetch(`${getApiUrl()}/cards/${id}`, {
                     method: 'DELETE'
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao deletar card');
                 showMessage('cardsResults', 'Card deletado com sucesso!');
                 setTimeout(getAllCards, 1000);
@@ -702,7 +783,7 @@
                 showMessage('examsResults', 'Por favor, insira um ID', 'error');
                 return;
             }
-            
+
             showLoading('examsResults');
             try {
                 const response = await fetch(`${getApiUrl()}/exams/${id}`);
@@ -717,17 +798,17 @@
         async function createExam() {
             const name = document.getElementById('examName').value;
             const examYear = document.getElementById('examYear').value;
-            
+
             if (!name) {
                 showMessage('examsResults', 'Preencha o nome do exame', 'error');
                 return;
             }
 
-            const exam = { 
+            const exam = {
                 name,
                 examYear: examYear ? parseInt(examYear) : null
             };
-            
+
             showLoading('examsResults');
             try {
                 const response = await fetch(`${getApiUrl()}/exams`, {
@@ -735,7 +816,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(exam)
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao criar exame');
                 showMessage('examsResults', 'Exame criado com sucesso!');
                 setTimeout(getAllExams, 1000);
@@ -748,17 +829,17 @@
             const id = document.getElementById('examId').value;
             const name = document.getElementById('examName').value;
             const examYear = document.getElementById('examYear').value;
-            
+
             if (!id || !name) {
                 showMessage('examsResults', 'Preencha ID e nome', 'error');
                 return;
             }
 
-            const exam = { 
+            const exam = {
                 name,
                 examYear: examYear ? parseInt(examYear) : null
             };
-            
+
             showLoading('examsResults');
             try {
                 const response = await fetch(`${getApiUrl()}/exams/${id}`, {
@@ -766,7 +847,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(exam)
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao atualizar exame');
                 showMessage('examsResults', 'Exame atualizado com sucesso!');
                 setTimeout(getAllExams, 1000);
@@ -781,15 +862,15 @@
                 showMessage('examsResults', 'Por favor, insira um ID', 'error');
                 return;
             }
-            
+
             if (!confirm('Tem certeza que deseja deletar este exame?')) return;
-            
+
             showLoading('examsResults');
             try {
                 const response = await fetch(`${getApiUrl()}/exams/${id}`, {
                     method: 'DELETE'
                 });
-                
+
                 if (!response.ok) throw new Error('Erro ao deletar exame');
                 showMessage('examsResults', 'Exame deletado com sucesso!');
                 setTimeout(getAllExams, 1000);
@@ -797,6 +878,33 @@
                 showMessage('examsResults', `Erro: ${error.message}`, 'error');
             }
         }
+
+        const btn = document.getElementById("toggleTheme");
+        const nen = document.getElementById("nen");
+        let darkMode = false;
+
+        btn.addEventListener("click", (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // Define a posição inicial do efeito
+            nen.style.left = `${x}px`;
+            nen.style.top = `${y}px`;
+
+            // Expande o Nen (energia)
+            nen.style.transform = "scale(1)";
+
+            // Troca o tema levemente atrasado para casar com a expansão
+            setTimeout(() => {
+                document.body.classList.toggle("dark");
+            }, 100);
+
+            // Recolhe o Nen depois do efeito
+            setTimeout(() => {
+                nen.style.transform = "scale(0)";
+            }, 600);
+        });
+
 
         function displayExams(exams) {
             const resultsDiv = document.getElementById('examsResults');
@@ -819,5 +927,5 @@
         }
     </script>
 </body>
-</html>
 
+</html>
