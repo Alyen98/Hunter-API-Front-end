@@ -4,165 +4,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hunter x Hunter API Manager</title>
+    <title>Hunter API - Gerenciador Hunter x Hunter</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Titillium+Web:wght@700;900&display=swap"
+        rel="stylesheet">
 
     <style>
+        /* ================================================= */
+        /* === 1. ESTILIZAÇÃO TEMÁTICA HUNTER X HUNTER === */
+        /* ================================================= */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
         }
 
+        /* --- FONTES & BACKGROUND GERAL --- */
         body {
-            background: url('https://wallpapercave.com/wp/wp6949337.jpg') no-repeat center center/cover;
+            font-family: 'Open Sans', sans-serif;
+            background: #1a202c;
             min-height: 100vh;
-            padding: 30px;
-            backdrop-filter: blur(4px);
+            padding: 20px;
+            color: #f7fafc;
         }
 
-        /* --------------------- CONTAINER ---------------------- */
         .container {
             max-width: 1200px;
-            margin: auto;
-            background: rgba(0, 0, 0, 0.75);
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+            margin: 0 auto;
+            background: #2d3748;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            border: 2px solid #00ff9d;
+            border: 1px solid #4a5568;
         }
 
-        /* ---------------------- HEADER ----------------------- */
+        /* --- HEADER (TÍTULO) --- */
         header {
+            background: #171923;
+            color: white;
+            padding: 30px;
             text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #0e0e0e, #022d1f);
-            border-bottom: 2px solid #00ff7b;
+            border-bottom: 5px solid #e53e3e;
+            /* Vermelho Escarlate */
         }
 
         header h1 {
-            font-size: 2.9rem;
-            color: #00ff9d;
-            text-shadow: 0 0 15px #00ff9d;
-            letter-spacing: 2px;
+            font-family: 'Titillium Web', sans-serif;
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            color: #F1C40F;
+            /* Destaque Ouro */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Simulação do logo Hunter x Hunter */
+        header h1 .hunter-symbol {
+            display: inline-block;
+            content: "XX";
+            font-family: 'Titillium Web', sans-serif;
+            color: #e53e3e;
+            font-size: 1.2em;
+            margin-right: 5px;
+            line-height: 0;
         }
 
         header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            color: #d0ffee;
+            opacity: 0.8;
+            font-size: 1.1em;
         }
 
-        /* ----------------------- TABS ------------------------- */
+        /* --- NAVEGAÇÃO (TABS) --- */
         .tabs {
             display: flex;
-            border-bottom: 2px solid #00ff7b;
-            background: rgba(0, 0, 0, 0.5);
+            background: #171923;
+            border-bottom: 1px solid #4a5568;
         }
 
         .tab {
             flex: 1;
-            padding: 18px;
-            font-weight: bold;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
             background: transparent;
-            color: #9affd0;
             border: none;
             font-size: 17px;
-            transition: 0.3s;
-            text-transform: uppercase;
+            font-weight: 700;
+            color: #f7fafc;
+            transition: all 0.3s;
         }
 
         .tab:hover {
-            background: rgba(0, 255, 140, 0.15);
+            background: #384252;
         }
 
         .tab.active {
-            color: #00ff9d;
-            background: rgba(0, 255, 140, 0.25);
-            border-bottom: 3px solid #00ff9d;
+            background: #2d3748;
+            color: #F1C40F;
+            /* Ouro no ativo */
+            border-bottom: 3px solid #e53e3e;
+            /* Vermelho Escarlate */
         }
 
-        /* ---------------------- CONTENT ----------------------- */
         .content {
             padding: 30px;
         }
 
         .section {
             display: none;
-            animation: fade 0.4s ease-in-out;
         }
 
         .section.active {
             display: block;
         }
 
-        @keyframes fade {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        /* --- FORMULÁRIOS E INPUTS --- */
+        h2 {
+            color: #F1C40F;
+            border-bottom: 2px solid #4a5568;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-
-        :root {
-            --bg: #ffffff;
-            --text: #111111;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .dark {
-            --bg: #111111;
-            --text: #ffffff;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            transition: background 0.3s linear, color 0.3s linear;
-            overflow-x: hidden;
-            position: relative;
-            font-family: sans-serif;
-        }
-
-        /* Botão */
-        .toggle-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 16px;
-            border: none;
-            cursor: pointer;
-            background: var(--text);
-            color: var(--bg);
-            font-weight: bold;
-            border-radius: 8px;
-        }
-
-        /* Efeito Nen */
-        .nen-effect {
-            position: fixed;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0.7;
-            background: radial-gradient(circle, rgba(255, 255, 255, 1), transparent);
-            transform: scale(0);
-            transition: transform 0.6s ease-out;
-            mix-blend-mode: screen;
-        }
-
-
-
-        /* --------------------- FORM INPUTS --------------------- */
         label {
-            color: #c4ffe9;
-            margin-bottom: 6px;
             display: block;
+            margin-bottom: 8px;
             font-weight: 600;
+            color: #cbd5e0;
         }
 
         input,
@@ -170,99 +142,205 @@
         textarea {
             width: 100%;
             padding: 12px;
+
+            /* Contraste e Tema Escuro */
+            background: #171923;
+            color: #f7fafc;
+
+            border: 1px solid #4a5568;
             border-radius: 8px;
-            border: 2px solid #00ff9d;
-            background: rgba(0, 0, 0, 0.35);
-            color: #c4ffe9;
-            outline: none;
-            font-size: 15px;
+            font-size: 14px;
+
+            /* Transições para feedback visual */
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
         }
 
+        input::placeholder {
+            color: #718096;
+        }
+
+        /* Foco: Efeito Nen de Destaque */
         input:focus,
         select:focus,
         textarea:focus {
-            border-color: #00ffaa;
-            box-shadow: 0 0 8px #00ffaa;
+            outline: none;
+            border-color: #e53e3e;
+            /* Borda Vermelho Escarlate no foco */
+            box-shadow: 0 0 10px rgba(229, 62, 62, 0.5);
+            /* Brilho suave Escarlate */
         }
 
-        /* ------------------------ BUTTONS ----------------------- */
+        /* Estilização para SELECT (seta) */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23F1C40F%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.5H18.7c-5%200-9.3%201.8-13.2%206.5-3.9%204.7-5.9%2010.5-5.9%2017.6%200%207.2%202.1%2013%205.9%2017.8l125.4%20125.6c3.9%204.7%209.3%207.5%2016.2%207.5s12.3-2.8%2016.2-7.5l125.4-125.6c3.9-4.8%205.9-10.6%205.9-17.8.1-7.1-1.9-12.9-5.8-17.6z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+        }
+
+        /* --- ESTILIZAÇÃO DE BOTÕES (MÉTODOS HTTP/NEN) --- */
+        .actions {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px dashed #4a5568;
+        }
+
         .btn {
             padding: 12px 25px;
-            border-radius: 10px;
-            margin-right: 10px;
-            font-weight: 600;
-            cursor: pointer;
             border: none;
-            transition: 0.3s;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn-primary {
-            background: #009dff;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        /* GET (Emissor - Azul Vívido) */
+        .btn-nen-get {
+            background: #3498db;
             color: white;
-            box-shadow: 0 0 10px #009dff;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
         }
 
-        .btn-primary:hover {
-            background: #007acc;
-            transform: translateY(-3px);
+        .btn-nen-get:hover {
+            background: #2980b9;
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.7);
         }
 
-        .btn-success {
-            background: #00c06b;
+        /* POST (Conjurador - Verde Esmeralda) */
+        .btn-nen-post {
+            background: #2ecc71;
+            color: #171923;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+        }
+
+        .btn-nen-post:hover {
+            background: #27ae60;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.7);
+        }
+
+        /* PUT (Transmutador - Ouro/Laranja) */
+        .btn-nen-put {
+            background: #f39c12;
+            color: #171923;
+            box-shadow: 0 0 10px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-nen-put:hover {
+            background: #e67e22;
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.7);
+        }
+
+        /* DELETE (Especialista/Manipulador - Vermelho Escarlate) */
+        .btn-nen-delete {
+            background: #e53e3e;
             color: white;
-            box-shadow: 0 0 10px #00ff9d;
+            box-shadow: 0 0 10px rgba(229, 62, 62, 0.6);
         }
 
-        .btn-warning {
-            background: #ffae00;
-            color: white;
+        .btn-nen-delete:hover {
+            background: #c53030;
+            box-shadow: 0 0 20px rgba(229, 62, 62, 1);
         }
 
-        .btn-danger {
-            background: #ff2b2b;
-            color: white;
+        /* --- RESULTADOS & MENSAGENS --- */
+        .api-config {
+            background: #171923;
+            border: 1px dashed #718096;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
         }
 
-        .btn-danger:hover {
-            background: #cc0000;
-        }
-
-        /* ------------------ RESULTS / CARDS ------------------- */
         .results {
             margin-top: 30px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid #00ff9d;
-            border-radius: 10px;
-            min-height: 80px;
-            color: white;
+            background: #171923;
+            border-radius: 8px;
+            min-height: 100px;
+            border: 1px solid #4a5568;
+        }
+
+        .results h3 {
+            margin-bottom: 15px;
+            color: #F1C40F;
         }
 
         .card-item {
-            background: rgba(0, 20, 10, 0.7);
-            padding: 18px;
-            border-left: 5px solid #00ff9d;
-            border-radius: 8px;
+            background: #2d3748;
+            padding: 15px;
             margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e53e3e;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         .card-item h4 {
-            color: #00ff9d;
-            text-shadow: 0 0 10px #00ff9d;
+            color: #F1C40F;
             margin-bottom: 10px;
         }
 
         .card-item p {
-            color: #c4ffe9;
-            margin: 6px 0;
+            color: #cbd5e0;
+            margin: 5px 0;
         }
 
-        /* ---------------------- GRID --------------------------- */
+        .actions {
+            margin-top: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        /* Feedback Messages (Tratamento de Erros) */
+        .error {
+            background: #e53e3e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .success {
+            background: #48bb78;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .warning {
+            background: #f39c12;
+            color: #171923;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
         .row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            gap: 20px;
         }
 
         @media (max-width: 768px) {
@@ -270,186 +348,149 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        /* ------------------- ALERTS --------------------------- */
-        .error {
-            background: rgba(255, 0, 0, 0.25);
-            padding: 12px;
-            border-left: 5px solid red;
-            color: #ffbaba;
-            border-radius: 8px;
-        }
-
-        .success {
-            background: rgba(0, 255, 100, 0.25);
-            padding: 12px;
-            border-left: 5px solid #00ff9d;
-            color: #c4ffe9;
-            border-radius: 8px;
-        }
-
-        .loading {
-            text-align: center;
-            color: #00ff9d;
-            font-weight: bold;
-            font-size: 18px;
-        }
     </style>
 </head>
 
 <body>
-
     <div class="container">
         <header>
-            <h1>🎯 Hunter x Hunter API</h1>
-            <p>Gerenciador completo de Hunters, Cards e Exames</p>
+            <h1><span class="hunter-symbol"></span> Hunter x Hunter API</h1>
+            <p>Gerenciador completo de Hunters, Cards e Exames - Demonstrando Idempotência, Rate Limiting e Validação
+            </p>
         </header>
 
         <div class="tabs">
-            <button class="tab active" onclick="showTab('hunters')">Hunters</button>
-            <button class="tab" onclick="showTab('cards')">Cards</button>
-            <button class="tab" onclick="showTab('exams')">Exames</button>
+            <button class="tab active" onclick="showTab('hunters')">⚔️ Hunters</button>
+            <button class="tab" onclick="showTab('cards')">⚡ Cards Nen</button>
+            <button class="tab" onclick="showTab('exams')">📋 Exames</button>
         </div>
 
         <div class="content">
-            <!-- API Configuration -->
             <div class="api-config">
                 <label>URL Base da API:</label>
-                <input type="text" id="apiUrl" value="https://hunter-8ttu.onrender.com"
-                    placeholder="https://hunter-8ttu.onrender.com">
-
-                <button id="toggleTheme" class="toggle-btn">Alternar Tema</button>
-                <div class="nen-effect" id="nen"></div>
-
+                <input type="text" id="apiUrl" value="http://localhost:8080" placeholder="http://localhost:8080">
             </div>
 
-            <!-- HUNTERS SECTION -->
+            <div class="api-config">
+                <button class="btn btn-nen-get" id="generateKeyBtn">Gerar Nova Idempotency-Key</button>
+                <p style="margin-top: 10px; color: #F1C40F;">
+                    <strong>Chave Atual:</strong> <span id="currentKeyDisplay">Gerar Chave</span>
+                    <br><small style="color: #718096;">*Esta chave será enviada em todo POST. Recarregue a página ou
+                        clique para gerar nova chave.</small>
+                </p>
+            </div>
+
             <div id="hunters" class="section active">
-                <br>
-                <h2>Gerenciar Hunters</h2>
-                <br>
+                <h2>Gerenciar Hunters (POST/full para teste de Idempotência)</h2>
+
                 <div class="row">
                     <div class="form-group">
                         <label>ID do Hunter (para GET/PUT/DELETE):</label>
-                        <input type="number" id="hunterId" placeholder="Digite o ID">
+                        <input type="number" id="hunterId" placeholder="Digite o ID, Ex: 1">
                     </div>
                     <div class="form-group">
                         <label>Nome:</label>
-                        <input type="text" id="hunterName" placeholder="Nome do Hunter (3-100 caracteres)">
+                        <input type="text" id="hunterName" value="Gon Freecss Teste"
+                            placeholder="Nome do Hunter (3-100 caracteres)">
                     </div>
                 </div>
-                <br>
+
                 <div class="form-group">
                     <label>Idade:</label>
-                    <input type="number" id="hunterAge" placeholder="Idade (mínimo 1)" min="1">
+                    <input type="number" id="hunterAge" value="12" placeholder="Idade (mínimo 1)" min="1">
                 </div>
-                <br>
 
                 <div class="actions">
-                    <button class="btn btn-primary" onclick="getAllHunters()">Listar Todos</button>
-                    <button class="btn btn-success" onclick="getHunterById()">Buscar por ID</button>
-                    <button class="btn btn-success" onclick="createHunter()">Criar Novo</button>
-                    <button class="btn btn-warning" onclick="updateHunter()">Atualizar</button>
-                    <button class="btn btn-danger" onclick="deleteHunter()">Deletar</button>
+                    <button class="btn btn-nen-get" onclick="getAllHunters()">Listar Todos (GET)</button>
+                    <button class="btn btn-nen-get" onclick="getHunterById()">Buscar por ID (GET)</button>
+                    <button class="btn btn-nen-post" onclick="createHunter()">Criar/Idempotência (POST /full)</button>
+                    <button class="btn btn-nen-put" onclick="updateHunter()">Atualizar (PUT)</button>
+                    <button class="btn btn-nen-delete" onclick="deleteHunter()">Deletar (DELETE)</button>
                 </div>
 
                 <div id="huntersResults" class="results"></div>
             </div>
 
-            <!-- CARDS SECTION -->
-             <br>
             <div id="cards" class="section">
-                <h2>Gerenciar Cards Nen</h2>
+                <h2>Gerenciar Cards Nen (Teste de Busca Avançada)</h2>
 
                 <div class="row">
                     <div class="form-group">
-                        <br>
                         <label>ID do Card (para GET/PUT/DELETE):</label>
                         <input type="number" id="cardId" placeholder="Digite o ID">
                     </div>
                     <div class="form-group">
-                        <br>
                         <label>ID do Hunter (dono do card):</label>
                         <input type="number" id="cardHunterId" placeholder="ID do Hunter">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <br>
                     <label>Habilidade Nen:</label>
                     <input type="text" id="cardNenAbility" placeholder="Nome da habilidade">
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <br>
                         <label>Tipo Nen:</label>
                         <select id="cardNenType">
                             <option value="">Selecione...</option>
-                            <option value="Fortificador">Fortificador</option>
-                            <option value="Emissor">Emissor</option>
-                            <option value="Manipulador">Manipulador</option>
-                            <option value="Conjurador">Conjurador</option>
-                            <option value="Transmutador">Transmutador</option>
-                            <option value="Especialista">Especialista</option>
+                            <option value="Fortificador">0 - Fortificador</option>
+                            <option value="Emissor">1 - Emissor</option>
+                            <option value="Manipulador">2 - Manipulador</option>
+                            <option value="Conjurador">3 - Conjurador</option>
+                            <option value="Transmutador">4 - Transmutador</option>
+                            <option value="Especialista">5 - Especialista</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <br>
                         <label>Exame:</label>
                         <input type="text" id="cardExam" placeholder="Nome do exame (opcional)">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <br>
-                    <label>Buscar Cards (opcional):</label>
+                    <label>Buscar Cards (Endpoint /cards/search):</label>
                     <input type="text" id="cardSearch" placeholder="Termo de busca">
                 </div>
 
                 <div class="actions">
-                    <br>
-                    <button class="btn btn-primary" onclick="getAllCards()">Listar Todos</button>
-                    <button class="btn btn-primary" onclick="searchCards()">Buscar</button>
-                    <button class="btn btn-success" onclick="getCardById()">Buscar por ID</button>
-                    <button class="btn btn-success" onclick="createCard()">Criar Novo</button>
-                    <button class="btn btn-warning" onclick="updateCard()">Atualizar</button>
-                    <button class="btn btn-danger" onclick="deleteCard()">Deletar</button>
+                    <button class="btn btn-nen-get" onclick="getAllCards()">Listar Todos (GET)</button>
+                    <button class="btn btn-nen-get" onclick="searchCards()">Buscar (GET /search)</button>
+                    <button class="btn btn-nen-get" onclick="getCardById()">Buscar por ID (GET)</button>
+                    <button class="btn btn-nen-post" onclick="createCard()">Criar Novo (POST)</button>
+                    <button class="btn btn-nen-put" onclick="updateCard()">Atualizar (PUT)</button>
+                    <button class="btn btn-nen-delete" onclick="deleteCard()">Deletar (DELETE)</button>
                 </div>
 
                 <div id="cardsResults" class="results"></div>
             </div>
 
-            <!-- EXAMS SECTION -->
             <div id="exams" class="section">
                 <h2>Gerenciar Exames</h2>
 
                 <div class="row">
                     <div class="form-group">
-                        <br>
                         <label>ID do Exame (para GET/PUT/DELETE):</label>
                         <input type="number" id="examId" placeholder="Digite o ID">
                     </div>
                     <div class="form-group">
-                        <br>
                         <label>Nome do Exame:</label>
                         <input type="text" id="examName" placeholder="Nome do exame">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <br>
                     <label>Ano do Exame:</label>
                     <input type="number" id="examYear" placeholder="Ex: 2024">
                 </div>
 
                 <div class="actions">
-                    <br>
-                    <button class="btn btn-primary" onclick="getAllExams()">Listar Todos</button>
-                    <button class="btn btn-success" onclick="getExamById()">Buscar por ID</button>
-                    <button class="btn btn-success" onclick="createExam()">Criar Novo</button>
-                    <button class="btn btn-warning" onclick="updateExam()">Atualizar</button>
-                    <button class="btn btn-danger" onclick="deleteExam()">Deletar</button>
+                    <button class="btn btn-nen-get" onclick="getAllExams()">Listar Todos (GET)</button>
+                    <button class="btn btn-nen-get" onclick="getExamById()">Buscar por ID (GET)</button>
+                    <button class="btn btn-nen-post" onclick="createExam()">Criar Novo (POST)</button>
+                    <button class="btn btn-nen-put" onclick="updateExam()">Atualizar (PUT)</button>
+                    <button class="btn btn-nen-delete" onclick="deleteExam()">Deletar (DELETE)</button>
                 </div>
 
                 <div id="examsResults" class="results"></div>
@@ -458,80 +499,156 @@
     </div>
 
     <script>
-        const getApiUrl = () => document.getElementById('apiUrl').value;
+        const getApiUrl = () => document.getElementById('apiUrl').value.replace(/\/$/, '');
+        const HUNTERS_RESULTS_DIV = 'huntersResults';
+        const CARDS_RESULTS_DIV = 'cardsResults';
+        const EXAMS_RESULTS_DIV = 'examsResults';
+
+        let currentIdempotencyKey = crypto.randomUUID();
+
+        // --- FUNÇÕES DE UTILIADDE E UI ---
 
         function showTab(tabName) {
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
 
-            event.target.classList.add('active');
+            const clickedTab = event.target.closest('.tab');
+            if (clickedTab) clickedTab.classList.add('active');
+
             document.getElementById(tabName).classList.add('active');
         }
 
-        function showMessage(elementId, message, type = 'success') {
-            const element = document.getElementById(elementId);
-            const className = type === 'error' ? 'error' : 'success';
-            element.innerHTML = `<div class="${className}">${message}</div>`;
+        // Inicializa a chave de idempotência ao carregar a página
+        function initIdempotency() {
+            const keyDisplay = document.getElementById('currentKeyDisplay');
+            const keyBtn = document.getElementById('generateKeyBtn');
+
+            if (keyDisplay && keyBtn) {
+                keyDisplay.textContent = currentIdempotencyKey;
+                keyBtn.addEventListener('click', () => {
+                    currentIdempotencyKey = crypto.randomUUID();
+                    keyDisplay.textContent = currentIdempotencyKey;
+                    showMessage(HUNTERS_RESULTS_DIV, 'Nova Idempotency-Key gerada e pronta para uso.', 'warning');
+                });
+            }
         }
 
         function showLoading(elementId) {
             document.getElementById(elementId).innerHTML = '<div class="loading">Carregando...</div>';
         }
 
-        // HUNTERS FUNCTIONS
-        async function getAllHunters() {
-            showLoading('huntersResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/hunters`);
-                const data = await response.json();
-                displayHunters(data);
-            } catch (error) {
-                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
+        /**
+         * Exibe mensagens de sucesso, erro ou aviso. 
+         * Lida com a estrutura de erro padronizada da API (ErrorResponse)
+         */
+        async function showMessage(elementId, response, type = 'success') {
+            const element = document.getElementById(elementId);
+            let messageContent = '';
+            const className = type === 'error' ? 'error' : type;
+
+            if (response instanceof Response) {
+                const status = response.status;
+                let data;
+
+                try {
+                    data = await response.json();
+                } catch (e) {
+                    data = { message: response.statusText };
+                }
+
+                // Tratamento de Códigos HTTP (Focus on 409, 429, 400)
+                if (status === 404) {
+                    messageContent = `[${status}] Erro: Recurso não encontrado.`;
+                } else if (status === 409) {
+                    messageContent = `[${status}] CONFLITO: ${data.entity || data.message || 'Idempotency-Key já utilizada.'}`;
+                } else if (status === 429) {
+                    messageContent = `[${status}] Limite de Taxa Excedido! Tente novamente. Limite Reinicia em: ${response.headers.get('X-RateLimit-Reset')}s.`;
+                } else if (status >= 400) {
+                    const details = data.details ? `<br>Detalhes:<br><ul>${data.details.map(d => `<li>${d}</li>`).join('')}</ul>` : '';
+                    messageContent = `[${status}] Erro: ${data.message || data.error || 'Requisição Inválida.'} ${details}`;
+                } else if (status === 204) {
+                    messageContent = `[${status}] Operação realizada com sucesso (Sem Conteúdo).`;
+                } else {
+                    messageContent = `[${status}] ${data.message || 'Sucesso!'}`;
+                }
+            } else {
+                messageContent = response;
             }
+
+            element.innerHTML = `<div class="${className}">${messageContent}</div>`;
+        }
+
+        // --- FUNÇÃO GENÉRICA DE FETCH ---
+        async function apiFetch(path, options = {}, resultDivId) {
+            const defaultHeaders = { 'Content-Type': 'application/json' };
+
+            // Adiciona o cabeçalho de idempotência apenas para POST
+            if (options.method === 'POST') {
+                defaultHeaders['Idempotency-Key'] = currentIdempotencyKey;
+            }
+
+            const fetchOptions = {
+                ...options,
+                headers: {
+                    ...defaultHeaders,
+                    ...options.headers,
+                },
+            };
+
+            showLoading(resultDivId);
+
+            try {
+                const response = await fetch(`${getApiUrl()}${path}`, fetchOptions);
+
+                if (response.ok) {
+                    if (response.status === 204) return null;
+                    return await response.json();
+                } else {
+                    await showMessage(resultDivId, response, 'error');
+                    return null;
+                }
+
+            } catch (error) {
+                await showMessage(resultDivId, `Erro de Conexão: ${error.message}. Verifique a URL e o CORS.`, 'error');
+                return null;
+            }
+        }
+
+
+        // --- HUNTERS FUNCTIONS (CRUD) ---
+
+        async function getAllHunters() {
+            const data = await apiFetch('/hunters', { method: 'GET' }, HUNTERS_RESULTS_DIV);
+            if (data) displayHunters(data);
         }
 
         async function getHunterById() {
             const id = document.getElementById('hunterId').value;
-            if (!id) {
-                showMessage('huntersResults', 'Por favor, insira um ID', 'error');
-                return;
-            }
+            if (!id) return showMessage(HUNTERS_RESULTS_DIV, 'Por favor, insira um ID', 'error');
 
-            showLoading('huntersResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/hunters/${id}`);
-                if (!response.ok) throw new Error('Hunter não encontrado');
-                const data = await response.json();
-                displayHunters([data]);
-            } catch (error) {
-                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
-            }
+            const data = await apiFetch(`/hunters/${id}`, { method: 'GET' }, HUNTERS_RESULTS_DIV);
+            if (data) displayHunters(Array.isArray(data) ? data : [data]);
         }
 
+        // Usa POST /hunters/full para testar Idempotência e criação aninhada
         async function createHunter() {
             const name = document.getElementById('hunterName').value;
             const age = document.getElementById('hunterAge').value;
 
-            if (!name || !age) {
-                showMessage('huntersResults', 'Preencha nome e idade', 'error');
-                return;
-            }
+            // Corpos de requisição para teste de validação e idempotência
+            const body = { name, age: parseInt(age) };
+            const cardData = { nenAbility: 'Hatsu Test', nenType: 0, exam: 'Initial Test' };
+            const examIds = [1];
+            const fullBody = { ...body, cards: [cardData], examIds: examIds };
 
-            const hunter = { name, age: parseInt(age) };
+            const data = await apiFetch('/hunters/full', {
+                method: 'POST',
+                body: JSON.stringify(fullBody)
+            }, HUNTERS_RESULTS_DIV);
 
-            showLoading('huntersResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/hunters`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(hunter)
-                });
-
-                if (!response.ok) throw new Error('Erro ao criar hunter');
-                showMessage('huntersResults', 'Hunter criado com sucesso!');
-                setTimeout(getAllHunters, 1000);
-            } catch (error) {
-                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
+            if (data) {
+                showMessage(HUNTERS_RESULTS_DIV, `Hunter ${data.name} criado com sucesso! ID: ${data.id}. (Status 201)`, 'success');
+                setTimeout(getAllHunters, 500);
             }
         }
 
@@ -540,115 +657,79 @@
             const name = document.getElementById('hunterName').value;
             const age = document.getElementById('hunterAge').value;
 
-            if (!id || !name || !age) {
-                showMessage('huntersResults', 'Preencha ID, nome e idade', 'error');
-                return;
-            }
+            if (!id || !name || !age) return showMessage(HUNTERS_RESULTS_DIV, 'Preencha ID, nome e idade', 'error');
 
-            const hunter = { name, age: parseInt(age) };
+            const body = { name, age: parseInt(age) };
+            const data = await apiFetch(`/hunters/${id}`, { method: 'PUT', body: JSON.stringify(body) }, HUNTERS_RESULTS_DIV);
 
-            showLoading('huntersResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/hunters/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(hunter)
-                });
-
-                if (!response.ok) throw new Error('Erro ao atualizar hunter');
-                showMessage('huntersResults', 'Hunter atualizado com sucesso!');
-                setTimeout(getAllHunters, 1000);
-            } catch (error) {
-                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
+            if (data) {
+                showMessage(HUNTERS_RESULTS_DIV, `Hunter ID ${id} atualizado com sucesso! (Status 200)`, 'success');
+                setTimeout(getAllHunters, 500);
             }
         }
 
         async function deleteHunter() {
             const id = document.getElementById('hunterId').value;
-            if (!id) {
-                showMessage('huntersResults', 'Por favor, insira um ID', 'error');
-                return;
-            }
+            if (!id) return showMessage(HUNTERS_RESULTS_DIV, 'Por favor, insira um ID', 'error');
 
             if (!confirm('Tem certeza que deseja deletar este hunter?')) return;
 
-            showLoading('huntersResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/hunters/${id}`, {
-                    method: 'DELETE'
-                });
+            const data = await apiFetch(`/hunters/${id}`, { method: 'DELETE' }, HUNTERS_RESULTS_DIV);
 
-                if (!response.ok) throw new Error('Erro ao deletar hunter');
-                showMessage('huntersResults', 'Hunter deletado com sucesso!');
-                setTimeout(getAllHunters, 1000);
-            } catch (error) {
-                showMessage('huntersResults', `Erro: ${error.message}`, 'error');
+            if (data === null) {
+                showMessage(HUNTERS_RESULTS_DIV, `Hunter ID ${id} deletado com sucesso! (Status 204)`, 'success');
+                setTimeout(getAllHunters, 500);
             }
         }
 
         function displayHunters(hunters) {
-            const resultsDiv = document.getElementById('huntersResults');
+            const resultsDiv = document.getElementById(HUNTERS_RESULTS_DIV);
             if (!hunters || hunters.length === 0) {
                 resultsDiv.innerHTML = '<p>Nenhum hunter encontrado</p>';
                 return;
             }
 
-            let html = '<h3>Hunters:</h3>';
+            let html = '<h3>Hunters Encontrados:</h3>';
             hunters.forEach(hunter => {
                 html += `
                     <div class="card-item">
                         <h4>🎯 ${hunter.name || 'Sem nome'}</h4>
                         <p><strong>ID:</strong> ${hunter.id}</p>
                         <p><strong>Idade:</strong> ${hunter.age || 'N/A'}</p>
+                        <p><strong>Links:</strong> 
+                            <a href="${hunter._links.cards}" target="_blank">Cards</a> | 
+                            <a href="${hunter._links.self}" target="_blank">Self</a>
+                        </p>
                     </div>
                 `;
             });
             resultsDiv.innerHTML = html;
         }
 
-        // CARDS FUNCTIONS
+        // --- CARDS FUNCTIONS (CRUD) ---
+
         async function getAllCards() {
-            showLoading('cardsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/cards`);
-                const data = await response.json();
-                displayCards(data);
-            } catch (error) {
-                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
-            }
+            const data = await apiFetch('/cards', { method: 'GET' }, CARDS_RESULTS_DIV);
+            if (data) displayCards(data);
         }
 
         async function searchCards() {
             const query = document.getElementById('cardSearch').value;
-            showLoading('cardsResults');
-            try {
-                const url = query
-                    ? `${getApiUrl()}/cards/search?q=${encodeURIComponent(query)}`
-                    : `${getApiUrl()}/cards/search`;
-                const response = await fetch(url);
-                const data = await response.json();
+            const path = query ? `/cards/search?q=${encodeURIComponent(query)}` : '/cards/search';
+
+            const data = await apiFetch(path, { method: 'GET' }, CARDS_RESULTS_DIV);
+
+            if (data) {
                 displayCards(data.cards || data);
-            } catch (error) {
-                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
             }
         }
 
         async function getCardById() {
             const id = document.getElementById('cardId').value;
-            if (!id) {
-                showMessage('cardsResults', 'Por favor, insira um ID', 'error');
-                return;
-            }
+            if (!id) return showMessage(CARDS_RESULTS_DIV, 'Por favor, insira um ID', 'error');
 
-            showLoading('cardsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/cards/${id}`);
-                if (!response.ok) throw new Error('Card não encontrado');
-                const data = await response.json();
-                displayCards([data]);
-            } catch (error) {
-                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
-            }
+            const data = await apiFetch(`/cards/${id}`, { method: 'GET' }, CARDS_RESULTS_DIV);
+            if (data) displayCards(Array.isArray(data) ? data : [data]);
         }
 
         async function createCard() {
@@ -658,8 +739,7 @@
             const exam = document.getElementById('cardExam').value;
 
             if (!hunterId || !nenAbility || !nenType) {
-                showMessage('cardsResults', 'Preencha Hunter ID, habilidade e tipo Nen', 'error');
-                return;
+                return showMessage(CARDS_RESULTS_DIV, 'Preencha Hunter ID, habilidade e tipo Nen', 'error');
             }
 
             const card = {
@@ -669,19 +749,14 @@
                 hunter: { id: parseInt(hunterId) }
             };
 
-            showLoading('cardsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/cards`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(card)
-                });
+            const data = await apiFetch('/cards', {
+                method: 'POST',
+                body: JSON.stringify(card)
+            }, CARDS_RESULTS_DIV);
 
-                if (!response.ok) throw new Error('Erro ao criar card');
-                showMessage('cardsResults', 'Card criado com sucesso!');
-                setTimeout(getAllCards, 1000);
-            } catch (error) {
-                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
+            if (data) {
+                showMessage(CARDS_RESULTS_DIV, `Card ${data.nenability} criado! (Status 201)`, 'success');
+                setTimeout(getAllCards, 500);
             }
         }
 
@@ -692,107 +767,78 @@
             const nenType = document.getElementById('cardNenType').value;
             const exam = document.getElementById('cardExam').value;
 
-            if (!id || !hunterId || !nenAbility || !nenType) {
-                showMessage('cardsResults', 'Preencha todos os campos obrigatórios', 'error');
-                return;
-            }
+            if (!id) return showMessage(CARDS_RESULTS_DIV, 'Por favor, insira o ID do Card para atualizar', 'error');
 
             const card = {
                 nenAbility,
                 nenType,
                 exam: exam || null,
-                hunter: { id: parseInt(hunterId) }
+                // O PUT de Card não exige o Hunter, mas vamos passar se fornecido
+                hunter: hunterId ? { id: parseInt(hunterId) } : undefined
             };
 
-            showLoading('cardsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/cards/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(card)
-                });
+            const data = await apiFetch(`/cards/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(card)
+            }, CARDS_RESULTS_DIV);
 
-                if (!response.ok) throw new Error('Erro ao atualizar card');
-                showMessage('cardsResults', 'Card atualizado com sucesso!');
-                setTimeout(getAllCards, 1000);
-            } catch (error) {
-                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
+            if (data) {
+                showMessage(CARDS_RESULTS_DIV, `Card ID ${id} atualizado! (Status 200)`, 'success');
+                setTimeout(getAllCards, 500);
             }
         }
 
         async function deleteCard() {
             const id = document.getElementById('cardId').value;
-            if (!id) {
-                showMessage('cardsResults', 'Por favor, insira um ID', 'error');
-                return;
-            }
+            if (!id) return showMessage(CARDS_RESULTS_DIV, 'Por favor, insira um ID', 'error');
 
             if (!confirm('Tem certeza que deseja deletar este card?')) return;
 
-            showLoading('cardsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/cards/${id}`, {
-                    method: 'DELETE'
-                });
+            const data = await apiFetch(`/cards/${id}`, { method: 'DELETE' }, CARDS_RESULTS_DIV);
 
-                if (!response.ok) throw new Error('Erro ao deletar card');
-                showMessage('cardsResults', 'Card deletado com sucesso!');
-                setTimeout(getAllCards, 1000);
-            } catch (error) {
-                showMessage('cardsResults', `Erro: ${error.message}`, 'error');
+            if (data === null) {
+                showMessage(CARDS_RESULTS_DIV, `Card ID ${id} deletado com sucesso! (Status 204)`, 'success');
+                setTimeout(getAllCards, 500);
             }
         }
 
         function displayCards(cards) {
-            const resultsDiv = document.getElementById('cardsResults');
+            const resultsDiv = document.getElementById(CARDS_RESULTS_DIV);
             if (!cards || cards.length === 0) {
                 resultsDiv.innerHTML = '<p>Nenhum card encontrado</p>';
                 return;
             }
 
-            let html = '<h3>Cards Nen:</h3>';
+            let html = '<h3>Cards Nen Encontrados:</h3>';
             cards.forEach(card => {
                 html += `
                     <div class="card-item">
                         <h4>⚡ ${card.nenability || card.nenAbility || 'Sem habilidade'}</h4>
-                        <p><strong>ID:</strong> ${card.id}</p>
-                        <p><strong>Hunter:</strong> ${card.hunterName || card.hunter?.name || 'N/A'}</p>
+                        <p><strong>Hunter:</strong> ${card.hunterName || 'N/A'}</p>
                         <p><strong>Tipo Nen:</strong> ${card.nentype || card.nenType || 'N/A'}</p>
                         <p><strong>Exame:</strong> ${card.exam || 'N/A'}</p>
+                        <p><strong>Links:</strong> 
+                            <a href="${card._links.self}" target="_blank">Self</a>
+                        </p>
                     </div>
                 `;
             });
             resultsDiv.innerHTML = html;
         }
 
-        // EXAMS FUNCTIONS
+        // --- EXAMS FUNCTIONS (CRUD) ---
+
         async function getAllExams() {
-            showLoading('examsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/exams`);
-                const data = await response.json();
-                displayExams(data);
-            } catch (error) {
-                showMessage('examsResults', `Erro: ${error.message}`, 'error');
-            }
+            const data = await apiFetch('/exams', { method: 'GET' }, EXAMS_RESULTS_DIV);
+            if (data) displayExams(data);
         }
 
         async function getExamById() {
             const id = document.getElementById('examId').value;
-            if (!id) {
-                showMessage('examsResults', 'Por favor, insira um ID', 'error');
-                return;
-            }
+            if (!id) return showMessage(EXAMS_RESULTS_DIV, 'Por favor, insira um ID', 'error');
 
-            showLoading('examsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/exams/${id}`);
-                if (!response.ok) throw new Error('Exame não encontrado');
-                const data = await response.json();
-                displayExams([data]);
-            } catch (error) {
-                showMessage('examsResults', `Erro: ${error.message}`, 'error');
-            }
+            const data = await apiFetch(`/exams/${id}`, { method: 'GET' }, EXAMS_RESULTS_DIV);
+            if (data) displayExams(Array.isArray(data) ? data : [data]);
         }
 
         async function createExam() {
@@ -800,8 +846,7 @@
             const examYear = document.getElementById('examYear').value;
 
             if (!name) {
-                showMessage('examsResults', 'Preencha o nome do exame', 'error');
-                return;
+                return showMessage(EXAMS_RESULTS_DIV, 'Preencha o nome do exame', 'error');
             }
 
             const exam = {
@@ -809,19 +854,14 @@
                 examYear: examYear ? parseInt(examYear) : null
             };
 
-            showLoading('examsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/exams`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(exam)
-                });
+            const data = await apiFetch('/exams', {
+                method: 'POST',
+                body: JSON.stringify(exam)
+            }, EXAMS_RESULTS_DIV);
 
-                if (!response.ok) throw new Error('Erro ao criar exame');
-                showMessage('examsResults', 'Exame criado com sucesso!');
-                setTimeout(getAllExams, 1000);
-            } catch (error) {
-                showMessage('examsResults', `Erro: ${error.message}`, 'error');
+            if (data) {
+                showMessage(EXAMS_RESULTS_DIV, `Exame ${data.name} criado com sucesso!`, 'success');
+                setTimeout(getAllExams, 500);
             }
         }
 
@@ -831,8 +871,7 @@
             const examYear = document.getElementById('examYear').value;
 
             if (!id || !name) {
-                showMessage('examsResults', 'Preencha ID e nome', 'error');
-                return;
+                return showMessage(EXAMS_RESULTS_DIV, 'Preencha ID e nome', 'error');
             }
 
             const exam = {
@@ -840,91 +879,89 @@
                 examYear: examYear ? parseInt(examYear) : null
             };
 
-            showLoading('examsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/exams/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(exam)
-                });
+            const data = await apiFetch(`/exams/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(exam)
+            }, EXAMS_RESULTS_DIV);
 
-                if (!response.ok) throw new Error('Erro ao atualizar exame');
-                showMessage('examsResults', 'Exame atualizado com sucesso!');
-                setTimeout(getAllExams, 1000);
-            } catch (error) {
-                showMessage('examsResults', `Erro: ${error.message}`, 'error');
+            if (data) {
+                showMessage(EXAMS_RESULTS_DIV, `Exame ID ${id} atualizado com sucesso!`, 'success');
+                setTimeout(getAllExams, 500);
             }
         }
 
         async function deleteExam() {
             const id = document.getElementById('examId').value;
             if (!id) {
-                showMessage('examsResults', 'Por favor, insira um ID', 'error');
-                return;
+                return showMessage(EXAMS_RESULTS_DIV, 'Por favor, insira um ID', 'error');
             }
 
             if (!confirm('Tem certeza que deseja deletar este exame?')) return;
 
-            showLoading('examsResults');
-            try {
-                const response = await fetch(`${getApiUrl()}/exams/${id}`, {
-                    method: 'DELETE'
-                });
+            const data = await apiFetch(`/exams/${id}`, { method: 'DELETE' }, EXAMS_RESULTS_DIV);
 
-                if (!response.ok) throw new Error('Erro ao deletar exame');
-                showMessage('examsResults', 'Exame deletado com sucesso!');
-                setTimeout(getAllExams, 1000);
-            } catch (error) {
-                showMessage('examsResults', `Erro: ${error.message}`, 'error');
+            if (data === null) {
+                showMessage(EXAMS_RESULTS_DIV, `Exame deletado com sucesso!`, 'success');
+                setTimeout(getAllExams, 500);
             }
         }
 
-        const btn = document.getElementById("toggleTheme");
-        const nen = document.getElementById("nen");
-        let darkMode = false;
-
-        btn.addEventListener("click", (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-
-            // Define a posição inicial do efeito
-            nen.style.left = `${x}px`;
-            nen.style.top = `${y}px`;
-
-            // Expande o Nen (energia)
-            nen.style.transform = "scale(1)";
-
-            // Troca o tema levemente atrasado para casar com a expansão
-            setTimeout(() => {
-                document.body.classList.toggle("dark");
-            }, 100);
-
-            // Recolhe o Nen depois do efeito
-            setTimeout(() => {
-                nen.style.transform = "scale(0)";
-            }, 600);
-        });
-
-
         function displayExams(exams) {
-            const resultsDiv = document.getElementById('examsResults');
+            const resultsDiv = document.getElementById(EXAMS_RESULTS_DIV);
             if (!exams || exams.length === 0) {
                 resultsDiv.innerHTML = '<p>Nenhum exame encontrado</p>';
                 return;
             }
 
-            let html = '<h3>Exames:</h3>';
+            let html = '<h3>Exames Encontrados:</h3>';
             exams.forEach(exam => {
                 html += `
                     <div class="card-item">
                         <h4>📋 ${exam.name || 'Sem nome'}</h4>
                         <p><strong>ID:</strong> ${exam.id}</p>
                         <p><strong>Ano:</strong> ${exam.examYear || 'N/A'}</p>
+                        <p><strong>Links:</strong> 
+                            <a href="${exam._links.participants}" target="_blank">Participantes</a> | 
+                            <a href="${exam._links.self}" target="_blank">Self</a>
+                        </p>
                     </div>
                 `;
             });
             resultsDiv.innerHTML = html;
         }
+
+
+        // --- Inicialização ---
+
+        window.showTab = showTab;
+        window.onload = () => {
+            initIdempotency();
+
+            // Configura as funções de Hunter no escopo global
+            window.getAllHunters = getAllHunters;
+            window.getHunterById = getHunterById;
+            window.createHunter = createHunter;
+            window.updateHunter = updateHunter;
+            window.deleteHunter = deleteHunter;
+
+            // Configura as funções de Cards no escopo global
+            window.getAllCards = getAllCards;
+            window.searchCards = searchCards;
+            window.getCardById = getCardById;
+            window.createCard = createCard;
+            window.updateCard = updateCard;
+            window.deleteCard = deleteCard;
+
+            // Configura as funções de Exames no escopo global
+            window.getAllExams = getAllExams;
+            window.getExamById = getExamById;
+            window.createExam = createExam;
+            window.updateExam = updateExam;
+            window.deleteExam = deleteExam;
+
+            // Carrega a lista inicial (Hunters)
+            getAllHunters();
+        };
     </script>
 </body>
 
